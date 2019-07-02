@@ -1,7 +1,7 @@
-package entity;
+package com.alevel.project.coffee.model;
 
 import javax.persistence.*;
-import java.util.Objects;
+        import java.util.Objects;
 
 @Entity
 public class CoffeHouses {
