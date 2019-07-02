@@ -9,6 +9,31 @@ public class User {
     public User() {
     }
 
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private long id;
+
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Column(name = "lastname")
+    private String lastName;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "status")
+    private String status;
+
     public User(String username, String firstName, String lastName, String email, String password, String status) {
         this.username = username;
         this.firstName = firstName;
@@ -23,29 +48,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private long id;
-
-    @Column(name = "username", nullable = false)
-    private String username;
-
-    @Column(name = "firstname", nullable = false)
-    private String firstName;
-
-    @Column(name = "lastname", nullable = false)
-    private String lastName;
-
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @Column(name = "status", nullable = false)
-    private String status;
 
 
     public long getId() {
