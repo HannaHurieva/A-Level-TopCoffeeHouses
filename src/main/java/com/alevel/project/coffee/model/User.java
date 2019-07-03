@@ -1,39 +1,44 @@
 package com.alevel.project.coffee.model;
 
+import com.alevel.project.coffee.model.enums.Role;
+import com.alevel.project.coffee.model.enums.Status;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users", catalog = "db_coffee_in")
-public class User implements UserDetails {
+public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    //the BCrypt algorithm generates a String of length 60
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -49,7 +54,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String username, String firstName, String lastName, String email, String password, String status) {
+    public User(String username, String firstName, String lastName, String email, String password, Status status) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -106,11 +111,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -139,6 +144,7 @@ public class User implements UserDetails {
         return Objects.hash(id, username, email, password, roles);
     }
 
+    // DO-NOT-INCLUDE passwords in toString function
     @Override
     public String toString() {
         return "User{" +
@@ -147,7 +153,6 @@ public class User implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
                 ", roles=" + roles +
                 '}';
