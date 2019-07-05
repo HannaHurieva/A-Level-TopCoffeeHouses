@@ -4,12 +4,19 @@ import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/registration")
 public class RegistrationController {
     private UserServiceImpl userService;
 
@@ -18,15 +25,36 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("/registration")
+    @GetMapping
     public String registration() {
         return "registration";
     }
 
-    @PostMapping("/registration")
-    public String addUser(User user, Map<String, Object> model) {
+    @PostMapping
+    public String processRegistration(@RequestParam("confirmPassword") String confirmPassword,
+                                      @Valid User user, BindingResult bindingResult,
+                                      Model model) {
+
+        boolean isConfirmEmpty = StringUtils.isEmpty(confirmPassword);
+
+        if (isConfirmEmpty) {
+            model.addAttribute("confirmPasswordError", "Password confirmation cannot be empty");
+        }
+
+        if (user.getPassword() != null && !user.getPassword().equals(confirmPassword)) {
+            model.addAttribute("passwordError", "Passwords are different!");
+        }
+
+        if (isConfirmEmpty || bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errors);
+
+            return "registration";
+        }
+
         if (!userService.addNewUser(user)) {
-            model.put("message", "User exists!");
+            model.addAttribute("usernameError", "User with such login or email exists!");
             return "registration";
         }
 
