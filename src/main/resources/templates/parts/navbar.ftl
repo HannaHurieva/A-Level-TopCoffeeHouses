@@ -1,4 +1,4 @@
-
+<#include "security.ftl">
 <#import "login.ftl" as l>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,8 +20,12 @@
                 <a class="nav-link" href="/reviews">Reviews</a>
             </li>
 
+            <#if isAdmin>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">User list</a>
+            </li>
+            </#if>
+
         </ul>
-
-
     </div>
 </nav>

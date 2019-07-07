@@ -70,6 +70,10 @@ public class User implements Serializable, UserDetails {
         status = Status.ACTIVE;
     }
 
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
+
     public long getId() {
         return id;
     }
