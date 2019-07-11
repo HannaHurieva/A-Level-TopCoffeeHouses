@@ -176,7 +176,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return (status != Status.valueOf("DELETED"));
     }
 
     @Override
@@ -186,7 +186,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return (status != Status.valueOf("NOT_ACTIVE"));
     }
 
 

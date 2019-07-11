@@ -22,7 +22,8 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> First Name :</label>
             <div class="col-sm-6">
-                <input type="text" name="firstName" placeholder="First name"/>
+                <input type="text" name="firstName" value="<#if firstName??>${user.firstName}</#if>"
+                       placeholder="First name"/>
             </div>
         </div>
 

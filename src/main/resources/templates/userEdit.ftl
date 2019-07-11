@@ -4,14 +4,30 @@
     User editor
 
     <form action="/user" method="post">
-    <input type="text" name="username" value="${user.username}">
-    <#list roles as role>
-        <div>
-        <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"> User Name:</label>
+        <div class="col-sm-6">
+            <input type="text" name="username" value="${user.username}">
         </div>
-    </#list>
-<input type="hidden" value="${user.id}" name="userId">
-<input type="hidden" value="${_csrf.token}" name="_csrf">
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"> Roles:</label>
+        <#list roles as role>
+            <div>
+            <label class="col-sm-6">
+            <input type="checkbox" name="${role}"
+            ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
+            </div>
+        </#list>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"> Status:</label>
+            <div class="col-sm-6">
+            <input type="text" name="status" value="${user.status}">
+            </div>
+    </div>
+    <input type="hidden" value="${user.id}" name="userId">
+    <input type="hidden" value="${_csrf.token}" name="_csrf">
     <button type="submit">Save</button>
     </form>
 </@c.page>
