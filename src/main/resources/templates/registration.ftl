@@ -2,7 +2,7 @@
 
 <@c.page>
     <div class="mb-1">Registration form</div>
-    ${message?ifExists}
+
     <form action="/registration" method="post">
 
         <div class="form-group row">
@@ -22,15 +22,16 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> First Name :</label>
             <div class="col-sm-6">
-                <input type="text" name="firstName" value="<#if firstName??>${user.firstName}</#if>"
-                       placeholder="First name"/>
+                <input type="text" name="firstName" value="<#if user??>${user.firstName}</#if>"
+                       class="form-control" placeholder="First name"/>
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Last Name :</label>
             <div class="col-sm-6">
-                <input type="text" name="lastName" placeholder="Last name"/>
+                <input type="text" name="lastName" value="<#if user??>${user.lastName}</#if>"
+                       class="form-control" placeholder="Last name"/>
             </div>
         </div>
 

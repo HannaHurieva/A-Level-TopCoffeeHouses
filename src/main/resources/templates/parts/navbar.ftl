@@ -33,7 +33,16 @@
             </#if>
         </ul>
 
-        <div class="navbar-text mr-3">${name}</div>
-        <@l.logout />
+            <div class="navbar-text mr-3">${name}</div>
+
+            <#if !user??>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Sign In</a>
+                </li>
+            </#if>
+
+            <#if user??>
+                <@l.logout/>
+            </#if>
     </div>
 </nav>
