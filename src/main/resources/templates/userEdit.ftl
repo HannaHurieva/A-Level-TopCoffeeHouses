@@ -24,8 +24,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label"> Status:</label>
             <div class="col-sm-6">
-                <select id="status" name="status">
-                <option>Please select</option>
+                <select name="status" >
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="NOT_ACTIVE">NOT_ACTIVE</option>
                     <option value="DELETED">DELETED</option>

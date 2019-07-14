@@ -52,7 +52,7 @@
             </#if>
         </ul>
 
-            <span class="navbar-text ">${name}</span>
+            <span class="navbar-text mr-3 ">${name}</span>
 
             <#if !user??>
                 <li class="nav-item">
