@@ -1,6 +1,6 @@
 package com.alevel.project.coffee.config;
 
-import com.alevel.project.coffee.service.UserDetailServiceImpl;
+import com.alevel.project.coffee.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

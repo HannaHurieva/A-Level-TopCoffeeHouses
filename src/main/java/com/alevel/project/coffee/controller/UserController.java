@@ -3,7 +3,7 @@ package com.alevel.project.coffee.controller;
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.model.enums.Role;
 import com.alevel.project.coffee.model.enums.Status;
-import com.alevel.project.coffee.service.UserServiceImpl;
+import com.alevel.project.coffee.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,7 +47,7 @@ public class UserController {
             @RequestParam Map<String, String> roles,
             @RequestParam String status,
             @RequestParam("userId") User user) {
-        userService.saveUser(user, username, roles, status);
+        userService.updateUserRole(user, username, roles, status);
         return "redirect:/user";
     }
 
@@ -74,7 +74,7 @@ public class UserController {
             model.addAttribute("emailEmptyError", "Email cannot be empty");
             return "profile";
         } else {
-            userService.updateProfile(user, firstName, lastName, email, password);
+            userService.updateUserProfile(user, firstName, lastName, email, password);
             return "redirect:/user/reviews";
         }
     }
