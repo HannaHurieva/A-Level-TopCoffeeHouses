@@ -6,17 +6,16 @@ import com.alevel.project.coffee.model.enums.Status;
 import com.alevel.project.coffee.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+@PreAuthorize("hasAuthority('ADMIN')")
+public class UserAdministrationController {
     private UserServiceImpl userService;
 
     @Autowired
@@ -24,14 +23,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
@@ -40,7 +38,6 @@ public class UserController {
         return "userEdit";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String username,
@@ -49,39 +46,5 @@ public class UserController {
             @RequestParam("userId") User user) {
         userService.updateUserRoleAndStatus(user, username, roles, status);
         return "redirect:/user";
-    }
-
-    @GetMapping("profile")
-    public String getProfile(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("firstName", user.getFirstName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("email", user.getEmail());
-        return "profile";
-    }
-
-    @PostMapping("profile")
-    public String updateProfile(
-            @AuthenticationPrincipal User user,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String email,
-            @RequestParam String password,
-            Model model) {
-
-        boolean isEmailEmpty = StringUtils.isEmpty(email);
-        if (isEmailEmpty) {
-            model.addAttribute("emailEmptyError", "Email cannot be empty");
-            return "profile";
-        } else {
-            userService.updateUserProfile(user, firstName, lastName, email, password);
-            return "redirect:/user/reviews";
-        }
-    }
-
-    @GetMapping("reviews")
-    public String getUserReviews(Model model) {
-        //model.addAttribute("reviews", reviewService.findAll());
-        return "reviews";
     }
 }
