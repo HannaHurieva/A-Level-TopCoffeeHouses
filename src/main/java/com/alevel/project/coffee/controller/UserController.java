@@ -47,7 +47,7 @@ public class UserController {
             @RequestParam Map<String, String> roles,
             @RequestParam String status,
             @RequestParam("userId") User user) {
-        userService.updateUserRole(user, username, roles, status);
+        userService.updateUserRoleAndStatus(user, username, roles, status);
         return "redirect:/user";
     }
 
