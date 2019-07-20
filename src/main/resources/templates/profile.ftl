@@ -8,7 +8,7 @@
             <label class="col-sm-2 col-form-label">First Name:</label>
             <div class="col-sm-6">
                 <input type="text" name="firstName" value="${firstName!''}"
-                        class="form-control" placeholder="First Name" "/>
+                        class="form-control" placeholder="First Name" />
             </div>
         </div>
         <div class="form-group row">

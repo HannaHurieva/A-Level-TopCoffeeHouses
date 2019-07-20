@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        li {
-            list-style-type: none;
-            /* Убираем маркеры */
-        }
-
-        ul {
-            margin-left: 0;
-            /* Отступ слева в браузере IE и Opera */
-            padding-left: 0;
-            /* Отступ слева в браузере Firefox, Safari, Chrome */
-        }
-    </style>
-</head>
-
-<body>
 <#include "security.ftl">
 <#import "login.ftl" as l>
 
@@ -52,17 +33,16 @@
             </#if>
         </ul>
 
-            <span class="navbar-text mr-3 ">${name}</span>
+        <div class="navbar-text mr-3">${name}</div>
 
-            <#if !user??>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Sign In</a>
-                </li>
-            </#if>
+        <#if !user??>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Sign In</a>
+            </li>
+        </#if>
 
-            <#if user??>
-                <@l.logout/>
-            </#if>
+        <#if user??>
+            <@l.logout/>
+        </#if>
     </div>
-</nav>
-</body>
+    </nav>
