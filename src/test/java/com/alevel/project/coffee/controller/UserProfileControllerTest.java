@@ -80,11 +80,11 @@ public class UserProfileControllerTest {
     public void shouldRedirectWhenChangeFirstNameTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
                 (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
-                    .param("firstName", "firstName")
-                    .param("lastName", "")
-                    .param("password", "")
-                    .param("email", "user@alevel.com")
-                    .with(csrf());
+                        .param("firstName", "firstName")
+                        .param("lastName", "")
+                        .param("password", "")
+                        .param("email", "user@alevel.com")
+                        .with(csrf());
 
         this.mockMvc.perform(multipart)
                 .andDo(print())
