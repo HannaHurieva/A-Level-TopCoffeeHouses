@@ -22,7 +22,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "id", unique = true, nullable = false)
     private long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", nullable = false)
     @NotBlank(message = "Username cannot be empty")
     private String username;
 
@@ -32,7 +32,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
     @Email(message = "Email is not correct")
     @NotBlank(message = "Email cannot be empty")
     private String email;
@@ -68,6 +68,10 @@ public class User implements Serializable, UserDetails {
         this.email = email;
         this.password = password;
         status = Status.ACTIVE;
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
     }
 
     public long getId() {
@@ -172,7 +176,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return (status != Status.valueOf("DELETED"));
     }
 
     @Override
@@ -182,7 +186,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return (status != Status.valueOf("NOT_ACTIVE"));
     }
 
     @Override
