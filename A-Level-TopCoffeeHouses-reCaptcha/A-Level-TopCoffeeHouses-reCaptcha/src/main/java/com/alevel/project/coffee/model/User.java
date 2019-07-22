@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -20,7 +22,8 @@ public class User implements Serializable, UserDetails {
     @Column(name = "id", unique = true, nullable = false)
     private long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", nullable = false)
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     @Column(name = "first_name")
@@ -29,11 +32,14 @@ public class User implements Serializable, UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     //the BCrypt algorithm generates a String of length 60
     @Column(name = "password", nullable = false, length = 60)
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     @Column(name = "status")
@@ -44,6 +50,19 @@ public class User implements Serializable, UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Review> reviews;
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public User() {
     }
@@ -62,6 +81,10 @@ public class User implements Serializable, UserDetails {
         this.email = email;
         this.password = password;
         status = Status.ACTIVE;
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
     }
 
     public long getId() {
@@ -166,7 +189,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return (status != Status.valueOf("DELETED"));
     }
 
     @Override
@@ -176,8 +199,9 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return (status != Status.valueOf("NOT_ACTIVE"));
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
