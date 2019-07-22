@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -21,6 +23,7 @@ public class User implements Serializable, UserDetails {
     private long id;
 
     @Column(name = "username", unique = true, nullable = false)
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     @Column(name = "first_name")
@@ -30,10 +33,13 @@ public class User implements Serializable, UserDetails {
     private String lastName;
 
     @Column(name = "email", unique = true, nullable = false)
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     //the BCrypt algorithm generates a String of length 60
     @Column(name = "password", nullable = false, length = 60)
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     @Column(name = "status")
