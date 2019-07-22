@@ -1,9 +1,10 @@
-package com.alevel.project.coffee.service;
+package com.alevel.project.coffee.service.impl;
 
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.model.enums.Role;
 import com.alevel.project.coffee.model.enums.Status;
 import com.alevel.project.coffee.repository.UserRepo;
+import com.alevel.project.coffee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 import static com.alevel.project.coffee.model.enums.Status.ACTIVE;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
+
     private UserRepo userRepo;
     private PasswordEncoder passwordEncoder;
 
@@ -29,26 +31,44 @@ public class UserServiceImpl {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean addNewUser(User user) {
-        User userByUsername = userRepo.findByUsername(user.getUsername());
-        User userByEmail = userRepo.findByEmail(user.getEmail());
-        if (userByUsername != null || userByEmail != null) {
-            return false;
-        }
-
+    @Override
+    public void addNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(ACTIVE);
         user.setRoles(Collections.singleton(Role.USER));
 
         userRepo.save(user);
-        return true;
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
+
+    @Override
+    public boolean isUserExist(User user) {
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+        return userFromDb != null;
+    }
+
+    @Override
+    public boolean isEmailExist(User user) {
+        User userFromDb = userRepo.findByEmail(user.getEmail());
+        return userFromDb != null;
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepo.findAll();
     }
 
-    public void saveUser(User user, String username, Map<String, String> roles, String status) {
+    @Override
+    public void updateUserRole(User user, String username, Map<String, String> roles, String status) {
         user.setUsername(username);
 
         Set<String> rolesSet = Arrays.stream(Role.values())
@@ -63,9 +83,10 @@ public class UserServiceImpl {
 
         user.setStatus(Status.valueOf(status));
         userRepo.save(user);
-}
+    }
 
-    public void updateProfile(User user, String firstName, String lastName,
+    @Override
+    public void updateUserProfile(User user, String firstName, String lastName,
                               String email, String password) {
         if (!StringUtils.isEmpty(firstName) && !(user.getFirstName().equals(firstName))) {
             user.setFirstName(firstName);
@@ -73,7 +94,7 @@ public class UserServiceImpl {
         if (!StringUtils.isEmpty(lastName) && !(user.getLastName().equals(lastName))) {
             user.setLastName(lastName);
         }
-        if (!StringUtils.isEmpty(email) && !(user.getEmail().equals(email))){
+        if (!StringUtils.isEmpty(email) && !(user.getEmail().equals(email))) {
             user.setEmail(email);
         }
         if (!StringUtils.isEmpty(password) && !(user.getPassword().equals(password))) {

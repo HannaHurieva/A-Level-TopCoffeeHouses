@@ -1,7 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        li {
+            list-style-type: none;
+            /* Убираем маркеры */
+        }
+
+        ul {
+            margin-left: 0;
+            /* Отступ слева в браузере IE и Opera */
+            padding-left: 0;
+            /* Отступ слева в браузере Firefox, Safari, Chrome */
+        }
+    </style>
+</head>
+
+<body>
 <#include "security.ftl">
 <#import "login.ftl" as l>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">CoffeeIN</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,7 +52,7 @@
             </#if>
         </ul>
 
-            <div class="navbar-text mr-3">${name}</div>
+            <span class="navbar-text mr-3 ">${name}</span>
 
             <#if !user??>
                 <li class="nav-item">
@@ -46,3 +65,4 @@
             </#if>
     </div>
 </nav>
+</body>

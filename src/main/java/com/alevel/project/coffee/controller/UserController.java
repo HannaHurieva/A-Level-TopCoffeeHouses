@@ -3,12 +3,13 @@ package com.alevel.project.coffee.controller;
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.model.enums.Role;
 import com.alevel.project.coffee.model.enums.Status;
-import com.alevel.project.coffee.service.UserServiceImpl;
+import com.alevel.project.coffee.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public class UserController {
             @RequestParam Map<String, String> roles,
             @RequestParam String status,
             @RequestParam("userId") User user) {
-        userService.saveUser(user, username, roles, status);
+        userService.updateUserRole(user, username, roles, status);
         return "redirect:/user";
     }
 
@@ -65,9 +66,17 @@ public class UserController {
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam String email,
-            @RequestParam String password) {
-        userService.updateProfile(user, firstName, lastName, email, password);
-        return "redirect:/user/reviews";
+            @RequestParam String password,
+            Model model) {
+
+        boolean isEmailEmpty = StringUtils.isEmpty(email);
+        if (isEmailEmpty) {
+            model.addAttribute("emailEmptyError", "Email cannot be empty");
+            return "profile";
+        } else {
+            userService.updateUserProfile(user, firstName, lastName, email, password);
+            return "redirect:/user/reviews";
+        }
     }
 
     @GetMapping("reviews")

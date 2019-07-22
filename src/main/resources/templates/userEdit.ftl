@@ -20,12 +20,18 @@
             </div>
         </#list>
     </div>
+
     <div class="form-group row">
         <label class="col-sm-2 col-form-label"> Status:</label>
             <div class="col-sm-6">
-            <input type="text" name="status" value="${user.status}">
+                <select name="status" >
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    <option value="DELETED">DELETED</option>
+                </select>
             </div>
     </div>
+
     <input type="hidden" value="${user.id}" name="userId">
     <input type="hidden" value="${_csrf.token}" name="_csrf">
     <button type="submit">Save</button>

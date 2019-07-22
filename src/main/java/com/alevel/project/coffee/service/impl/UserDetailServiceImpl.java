@@ -1,4 +1,4 @@
-package com.alevel.project.coffee.service;
+package com.alevel.project.coffee.service.impl;
 
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.repository.UserRepo;
