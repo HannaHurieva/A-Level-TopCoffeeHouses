@@ -79,9 +79,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("reviews")
+  /*  @GetMapping("reviews")
     public String getUserReviews(Model model) {
         //model.addAttribute("reviews", reviewService.findAll());
         return "reviews";
-    }
+    }*/
 }
