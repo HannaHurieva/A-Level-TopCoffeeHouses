@@ -202,7 +202,6 @@ public class User implements Serializable, UserDetails {
         return (status != Status.valueOf("NOT_ACTIVE"));
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
