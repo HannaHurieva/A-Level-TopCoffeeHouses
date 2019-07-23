@@ -51,6 +51,11 @@ public class User implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Review> reviews;
+
+
+
     public User() {
     }
 
@@ -68,6 +73,14 @@ public class User implements Serializable, UserDetails {
         this.email = email;
         this.password = password;
         status = Status.ACTIVE;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public boolean isAdmin() {
