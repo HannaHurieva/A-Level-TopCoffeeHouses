@@ -12,7 +12,7 @@ public class CoffeeHouse implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coffee_house_id", unique = true, nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     @NotBlank(message = "Title cannot be empty")
@@ -60,11 +60,11 @@ public class CoffeeHouse implements Serializable {
         this.contact = contact;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -147,22 +147,28 @@ public class CoffeeHouse implements Serializable {
 
         CoffeeHouse that = (CoffeeHouse) o;
 
-        if (id != that.id) return false;
         if (timeOpening != that.timeOpening) return false;
         if (timeClosing != that.timeClosing) return false;
+        if (!id.equals(that.id)) return false;
         if (!title.equals(that.title)) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return contact != null ? contact.equals(that.contact) : that.contact == null;
+        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
+        if (rating != null ? !rating.equals(that.rating) : that.rating != null) return false;
+        if (cuisineTypes != null ? !cuisineTypes.equals(that.cuisineTypes) : that.cuisineTypes != null) return false;
+        return placeCategories != null ? placeCategories.equals(that.placeCategories) : that.placeCategories == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + title.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + timeOpening;
         result = 31 * result + timeClosing;
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (cuisineTypes != null ? cuisineTypes.hashCode() : 0);
+        result = 31 * result + (placeCategories != null ? placeCategories.hashCode() : 0);
         return result;
     }
 

@@ -18,8 +18,8 @@ import static com.alevel.project.coffee.model.enums.Status.ACTIVE;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepo userRepo;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserProfile(User user, String firstName, String lastName,
-                              String email, String password) {
+                                  String email, String password) {
         if (!(user.getFirstName().equals(firstName))) {
             user.setFirstName(firstName);
         }

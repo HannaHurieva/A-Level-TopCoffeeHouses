@@ -12,7 +12,7 @@ public class PlaceCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_category_id", unique = true, nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "place_category")
     private String placeCategory;
@@ -30,11 +30,11 @@ public class PlaceCategory implements Serializable {
         this.placeCategory = placeCategory;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

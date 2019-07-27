@@ -10,7 +10,7 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id", unique = true, nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "address", nullable = false)
     @NotBlank(message = "Address cannot be empty")
@@ -39,11 +39,11 @@ public class Contact {
         this.website = website;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,22 +95,22 @@ public class Contact {
 
         Contact contact = (Contact) o;
 
-        if (id != contact.id) return false;
+        if (!id.equals(contact.id)) return false;
         if (!address.equals(contact.address)) return false;
         if (location != null ? !location.equals(contact.location) : contact.location != null) return false;
         if (phone != null ? !phone.equals(contact.phone) : contact.phone != null) return false;
         if (website != null ? !website.equals(contact.website) : contact.website != null) return false;
-        return coffeeHouse.equals(contact.coffeeHouse);
+        return coffeeHouse != null ? coffeeHouse.equals(contact.coffeeHouse) : contact.coffeeHouse == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + address.hashCode();
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (website != null ? website.hashCode() : 0);
-        result = 31 * result + coffeeHouse.hashCode();
+        result = 31 * result + (coffeeHouse != null ? coffeeHouse.hashCode() : 0);
         return result;
     }
 

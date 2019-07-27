@@ -12,7 +12,7 @@ public class CuisineType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cuisine_type_id", unique = true, nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "cuisine_type")
     private String cuisineType;
@@ -30,11 +30,11 @@ public class CuisineType implements Serializable {
         this.cuisineType = cuisineType;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
