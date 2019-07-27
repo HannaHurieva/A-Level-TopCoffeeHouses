@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 @Controller
-@RequestMapping("/user/reviews")
+@RequestMapping("/places/reviews")
 public class ReviewController {
 
 
