@@ -54,7 +54,8 @@ public class CoffeeHouseServiceImpl implements CoffeeHouseService {
 
     @Override
     public boolean isTitleExist(CoffeeHouse coffeeHouse) {
-        return false;
+        CoffeeHouse coffeeHouseFromDb = coffeeHouseRepo.findByTitle(coffeeHouse.getTitle());
+        return coffeeHouseFromDb != null;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class CoffeeHouseServiceImpl implements CoffeeHouseService {
                                   String address, String location, String phone, String website, 
                                   CuisineType cuisineType, 
                                   PlaceCategory placeCategory) {
-
+    //TODO
     }
 
     @Override

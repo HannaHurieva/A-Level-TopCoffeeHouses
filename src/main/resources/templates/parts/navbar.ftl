@@ -21,9 +21,13 @@
             </li>
 
             <#if isAdmin>
-            <li class="nav-item">
-                <a class="nav-link" href="/user">User list</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">User list</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/places/create">Create new place</a>
+                </li>
             </#if>
 
             <#if user??>

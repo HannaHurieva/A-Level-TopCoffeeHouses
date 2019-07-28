@@ -23,15 +23,14 @@ public class UserAdministrationController {
         this.userService = userService;
     }
 
-
     @GetMapping
-    public String userList(Model model) {
+    public String getUsersList(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "userList";
+        return "usersList";
     }
 
     @GetMapping("{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
+    public String getUserEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         model.addAttribute("status", Status.values());
@@ -39,7 +38,7 @@ public class UserAdministrationController {
     }
 
     @PostMapping
-    public String userSave(
+    public String updateUserRoleAndStatus(
             @RequestParam String username,
             @RequestParam Map<String, String> roles,
             @RequestParam String status,
