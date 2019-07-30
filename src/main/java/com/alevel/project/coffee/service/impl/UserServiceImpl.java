@@ -22,12 +22,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setUserRepo(UserRepo userRepo) {
+    public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -68,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserRole(User user, String username, Map<String, String> roles, String status) {
+    public void updateUserRoleAndStatus(User user, String username, Map<String, String> roles, String status) {
         user.setUsername(username);
 
         Set<String> rolesSet = Arrays.stream(Role.values())
@@ -88,10 +84,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserProfile(User user, String firstName, String lastName,
                               String email, String password) {
-        if (!StringUtils.isEmpty(firstName) && !(user.getFirstName().equals(firstName))) {
+        if (!(user.getFirstName().equals(firstName))) {
             user.setFirstName(firstName);
         }
-        if (!StringUtils.isEmpty(lastName) && !(user.getLastName().equals(lastName))) {
+        if (!(user.getLastName().equals(lastName))) {
             user.setLastName(lastName);
         }
         if (!StringUtils.isEmpty(email) && !(user.getEmail().equals(email))) {

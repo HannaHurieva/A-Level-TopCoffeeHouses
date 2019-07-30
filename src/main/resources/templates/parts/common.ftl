@@ -2,18 +2,32 @@
 <!DOCTYPE html>
     <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
         <title>CoffeeIN</title>
-        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/static/style.css" />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
               integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-              crossorigin="anonymous">
+              crossorigin="anonymous" />
 
         <script src="https://www.google.com/recaptcha/api.js"></script>
+
+        <style>
+            li {
+                list-style-type: none;
+                /* Убираем маркеры */
+            }
+
+            ul {
+                margin-left: 0;
+                /* Отступ слева в браузере IE и Opera */
+                padding-left: 0;
+                /* Отступ слева в браузере Firefox, Safari, Chrome */
+            }
+        </style>
     </head>
 
     <body>
