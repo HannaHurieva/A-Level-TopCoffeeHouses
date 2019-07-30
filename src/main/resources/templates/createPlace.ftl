@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-    <div class="mb-1">Create new place</div>
+    <div class="mb-1" xmlns="http://www.w3.org/1999/html">Create new place</div>
 
     <form action="/places/create" method="post">
 
@@ -29,7 +29,12 @@
             <div class="col-sm-6">
                 <textarea name="description"
                           class="form-control ${(descriptionError??)?string('is-invalid', '')}"
-                          placeholder="Description" rows="3"></textarea>
+                          placeholder="Description" rows="3">
+    <#if coffeeHouse??>${coffeeHouse.description} </textarea>
+<#else>
+            </textarea>
+</#if>
+
                 <#if descriptionError??>
                     <div class="invalid-feedback">
                     ${descriptionError}
@@ -71,7 +76,7 @@
             </div>
         </div>
 
-
+        <#include "parts/createContact.ftl">
 
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <div><input type="submit" value="Create"/></div>

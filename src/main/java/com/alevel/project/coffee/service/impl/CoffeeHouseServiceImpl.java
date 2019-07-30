@@ -5,6 +5,7 @@ import com.alevel.project.coffee.model.Contact;
 import com.alevel.project.coffee.model.CuisineType;
 import com.alevel.project.coffee.model.PlaceCategory;
 import com.alevel.project.coffee.repository.CoffeeHouseRepo;
+import com.alevel.project.coffee.repository.ContactRepo;
 import com.alevel.project.coffee.service.CoffeeHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,19 @@ import java.util.Optional;
 public class CoffeeHouseServiceImpl implements CoffeeHouseService {
 
     private final CoffeeHouseRepo coffeeHouseRepo;
+    private final ContactRepo contactRepo;
 
     @Autowired
-    public CoffeeHouseServiceImpl(CoffeeHouseRepo coffeeHouseRepo) {
+    public CoffeeHouseServiceImpl(CoffeeHouseRepo coffeeHouseRepo, ContactRepo contactRepo) {
         this.coffeeHouseRepo = coffeeHouseRepo;
+        this.contactRepo = contactRepo;
     }
 
     @Override
-    public void createCoffeeHouse(CoffeeHouse coffeeHouse) {
-        coffeeHouseRepo.save(coffeeHouse);
+    public void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact) {
+        coffeeHouseRepo.saveAndFlush(coffeeHouse);
+        contact.setCoffeeHouse(coffeeHouse);
+        contactRepo.save(contact);
     }
 
     @Override

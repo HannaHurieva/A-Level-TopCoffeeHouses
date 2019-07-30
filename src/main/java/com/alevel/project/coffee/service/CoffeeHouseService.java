@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CoffeeHouseService {
-    void createCoffeeHouse(CoffeeHouse coffeeHouse);
+    void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact);
 
     List<CoffeeHouse> findAll();
 
