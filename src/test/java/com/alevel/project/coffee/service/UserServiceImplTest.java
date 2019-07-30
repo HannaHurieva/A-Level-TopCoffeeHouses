@@ -45,7 +45,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void shouldReturnTrueIfUserExist() {
+    void shouldReturnTrueIfUserExistTest() {
         when(userRepo.findByUsername("User1")).thenReturn(user);
         Assert.assertTrue(userService.isUserExist(user));
     }

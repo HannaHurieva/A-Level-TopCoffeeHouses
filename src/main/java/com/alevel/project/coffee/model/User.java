@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", catalog = "db_coffee_in")
+@Table(name = "users")
 public class User implements Serializable, UserDetails {
 
     @Id
