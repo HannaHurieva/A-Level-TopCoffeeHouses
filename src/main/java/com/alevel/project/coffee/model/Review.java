@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "reviews")
@@ -22,7 +23,7 @@ public class Review implements Serializable {
     @JoinColumn(name = "user_id")
     private User author;
 
-    private String filename;
+
 
     public Review() {
     }
@@ -64,14 +65,28 @@ public class Review implements Serializable {
         this.author = author;
     }
 
-    public String getFilename() {
-        return filename;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return id == review.id &&
+                Objects.equals(text, review.text) &&
+                Objects.equals(author, review.author);
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, author);
     }
 
-
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", author=" + author +
+                '}';
+    }
 }
 
