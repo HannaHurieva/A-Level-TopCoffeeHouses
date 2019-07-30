@@ -1,6 +1,10 @@
 package com.alevel.project.coffee.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Set;
@@ -19,12 +23,17 @@ public class CoffeeHouse implements Serializable {
     private String title;
 
     @Column(name = "description")
+    @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String description;
 
     @Column(name = "timeOpening")
+    @Min(value = 0, message = "The time can not be negative, must be greater than or equal to 0")
+    @Max(value = 23, message = "The time must be less than or equal to 23")
     private int timeOpening;
 
     @Column(name = "timeClosing")
+    @Min(value = 0, message = "The time can not be negative, must be greater than or equal to 0")
+    @Max(value = 23, message = "The time must be less than or equal to 23")
     private int timeClosing;
 
     @OneToOne(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

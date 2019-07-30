@@ -11,6 +11,11 @@
                 <input type="text" name="title" value="<#if coffeeHouse??>${coffeeHouse.title}</#if>"
                 class="form-control ${(titleError??)?string('is-invalid', '')}"
                 placeholder="Title" />
+
+                <small class="form-text text-muted">
+                    * Input the title of place
+                </small>
+
                 <#if titleError??>
                     <div class="invalid-feedback">
                     ${titleError}
@@ -22,8 +27,14 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"> Description :</label>
             <div class="col-sm-6">
-                <input type="text" name="description" value="<#if coffeeHouse??>${coffeeHouse.description}</#if>"
-                       class="form-control" placeholder="Description"/>
+                <textarea name="description"
+                          class="form-control ${(descriptionError??)?string('is-invalid', '')}"
+                          placeholder="Description" rows="3"></textarea>
+                <#if descriptionError??>
+                    <div class="invalid-feedback">
+                    ${descriptionError}
+                    </div>
+                </#if>
             </div>
         </div>
 
@@ -31,7 +42,18 @@
             <label class="col-sm-2 col-form-label"> Time opening :</label>
             <div class="col-sm-6">
                 <input type="number" name="timeOpening" value="<#if coffeeHouse??>${coffeeHouse.timeOpening}</#if>"
-                       class="form-control" placeholder="Time opening"/>
+                       class="form-control ${(timeOpeningError??)?string('is-invalid', '')}"
+                       placeholder="Time opening"/>
+
+                <small class="form-text text-muted">
+                    ** Input the time in the integer format between 0 to 23. Do not leave blank!
+                </small>
+
+                <#if timeOpeningError??>
+                    <div class="invalid-feedback">
+                    ${timeOpeningError}
+                    </div>
+                </#if>
             </div>
         </div>
 
@@ -39,7 +61,13 @@
             <label class="col-sm-2 col-form-label"> Time closing :</label>
             <div class="col-sm-6">
                 <input type="number" name="timeClosing" value="<#if coffeeHouse??>${coffeeHouse.timeClosing}</#if>"
-                       class="form-control" placeholder="Time closing"/>
+                       class="form-control ${(timeClosingError??)?string('is-invalid', '')}"
+                       placeholder="Time closing"/>
+                <#if timeClosingError??>
+                    <div class="invalid-feedback">
+                    ${timeClosingError}
+                    </div>
+                </#if>
             </div>
         </div>
 
