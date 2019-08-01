@@ -2,14 +2,14 @@ package com.alevel.project.coffee.service;
 
 import com.alevel.project.coffee.model.CoffeeHouse;
 import com.alevel.project.coffee.model.Contact;
-import com.alevel.project.coffee.model.CuisineType;
 import com.alevel.project.coffee.model.PlaceCategory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface CoffeeHouseService {
-    void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact);
+    void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact, Map<String, String> cuisineTypes);
 
     List<CoffeeHouse> findAll();
 
@@ -28,7 +28,7 @@ public interface CoffeeHouseService {
                            int timeOpening, int timeClosing,
                            Contact contact,
                            String address, String location, String phone, String website,
-                           CuisineType cuisineType,
+                           Map<String, String> cuisineType,
                            PlaceCategory placeCategory);
 
     void deleteCoffeeHouse(CoffeeHouse coffeeHouse);

@@ -2,16 +2,16 @@ package com.alevel.project.coffee.service.impl;
 
 import com.alevel.project.coffee.model.CoffeeHouse;
 import com.alevel.project.coffee.model.Contact;
-import com.alevel.project.coffee.model.CuisineType;
 import com.alevel.project.coffee.model.PlaceCategory;
+import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
 import com.alevel.project.coffee.repository.CoffeeHouseRepo;
 import com.alevel.project.coffee.repository.ContactRepo;
 import com.alevel.project.coffee.service.CoffeeHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CoffeeHouseServiceImpl implements CoffeeHouseService {
@@ -26,7 +26,17 @@ public class CoffeeHouseServiceImpl implements CoffeeHouseService {
     }
 
     @Override
-    public void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact) {
+    public void createCoffeeHouse(CoffeeHouse coffeeHouse, Contact contact, Map<String, String> form) {
+        Set<String> cuisineSet = Arrays.stream(CuisineTypeEnum.values())
+                .map(CuisineTypeEnum::name)
+                .collect(Collectors.toSet());
+
+        Set<CuisineTypeEnum> cuisineTypesOfCoffeeHouse = new HashSet<>();
+        for (String key : form.keySet()) {
+            if (cuisineSet.contains(key))
+                cuisineTypesOfCoffeeHouse.add(CuisineTypeEnum.valueOf(key));
+        }
+        coffeeHouse.setCuisineTypes(cuisineTypesOfCoffeeHouse);
         coffeeHouseRepo.saveAndFlush(coffeeHouse);
         contact.setCoffeeHouse(coffeeHouse);
         contactRepo.save(contact);
@@ -64,14 +74,14 @@ public class CoffeeHouseServiceImpl implements CoffeeHouseService {
     }
 
     @Override
-    public void updateCoffeeHouse(CoffeeHouse coffeeHouse, 
-                                  String title, String description, 
-                                  int timeOpening, int timeClosing, 
-                                  Contact contact, 
-                                  String address, String location, String phone, String website, 
-                                  CuisineType cuisineType, 
+    public void updateCoffeeHouse(CoffeeHouse coffeeHouse,
+                                  String title, String description,
+                                  int timeOpening, int timeClosing,
+                                  Contact contact,
+                                  String address, String location, String phone, String website,
+                                  Map<String, String> cuisineType,
                                   PlaceCategory placeCategory) {
-    //TODO
+        //TODO
     }
 
     @Override

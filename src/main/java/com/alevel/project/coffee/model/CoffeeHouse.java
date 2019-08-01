@@ -1,5 +1,6 @@
 package com.alevel.project.coffee.model;
 
+import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -45,11 +46,10 @@ public class CoffeeHouse implements Serializable {
     @OneToMany(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "coffeeHouse_cuisineType",
-            joinColumns = @JoinColumn(name = "coffee_house_id"),
-            inverseJoinColumns = @JoinColumn(name = "cuisine_type_id"))
-    private Set<CuisineType> cuisineTypes;
+    @ElementCollection(targetClass = CuisineTypeEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "coffeeHouse_cuisineType", joinColumns = @JoinColumn(name = "fk_coffee_house_id"))
+    @Enumerated(EnumType.ORDINAL)
+    private Set<CuisineTypeEnum> cuisineTypes;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "coffeeHouse_placeCategory",
@@ -133,11 +133,11 @@ public class CoffeeHouse implements Serializable {
         this.reviews = reviews;
     }
 
-    public Set<CuisineType> getCuisineTypes() {
+    public Set<CuisineTypeEnum> getCuisineTypes() {
         return cuisineTypes;
     }
 
-    public void setCuisineTypes(Set<CuisineType> cuisineTypes) {
+    public void setCuisineTypes(Set<CuisineTypeEnum> cuisineTypes) {
         this.cuisineTypes = cuisineTypes;
     }
 
@@ -163,6 +163,7 @@ public class CoffeeHouse implements Serializable {
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
         if (rating != null ? !rating.equals(that.rating) : that.rating != null) return false;
+        if (reviews != null ? !reviews.equals(that.reviews) : that.reviews != null) return false;
         if (cuisineTypes != null ? !cuisineTypes.equals(that.cuisineTypes) : that.cuisineTypes != null) return false;
         return placeCategories != null ? placeCategories.equals(that.placeCategories) : that.placeCategories == null;
     }
@@ -175,7 +176,6 @@ public class CoffeeHouse implements Serializable {
         result = 31 * result + timeOpening;
         result = 31 * result + timeClosing;
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (rating != null ? rating.hashCode() : 0);
         result = 31 * result + (cuisineTypes != null ? cuisineTypes.hashCode() : 0);
         result = 31 * result + (placeCategories != null ? placeCategories.hashCode() : 0);
         return result;

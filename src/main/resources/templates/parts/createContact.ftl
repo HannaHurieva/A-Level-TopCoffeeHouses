@@ -1,4 +1,3 @@
-
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Address :</label>
             <div class="col-sm-6">
@@ -27,18 +26,17 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> Phone :</label>
-            <div class="col-sm-6">
+        <div class="form-row">
+            <label class="col-sm-2"></label>
+            <div class="form-group col-md-3">
+                <label> Phone :</label>
                 <input type="text" name="phone" value="<#if contact??>${contact.phone}</#if>"
                        class="form-control"
                        placeholder="Phone" />
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> Web site :</label>
-            <div class="col-sm-6">
+            <div class="form-group col-md-3">
+                <label> Web site :</label>
                 <input type="text" name="website" value="<#if contact??>${contact.website}</#if>"
                        class="form-control"
                        placeholder="Web site" />

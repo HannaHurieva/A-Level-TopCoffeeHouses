@@ -2,6 +2,7 @@ package com.alevel.project.coffee.controller;
 
 import com.alevel.project.coffee.model.CoffeeHouse;
 import com.alevel.project.coffee.model.Contact;
+import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
 import com.alevel.project.coffee.service.impl.CoffeeHouseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -29,7 +27,8 @@ public class CoffeeHouseAdministrationController {
     }
 
     @GetMapping("/create")
-    public String createForm() {
+    public String createForm(Model model) {
+        model.addAttribute("cuisineTypes", CuisineTypeEnum.values());
         return "createPlace";
     }
 
@@ -37,6 +36,7 @@ public class CoffeeHouseAdministrationController {
     @Transactional
     public String createNewCoffeeHouse(@ModelAttribute("coffeeHouse") @Valid CoffeeHouse coffeeHouse, BindingResult bindingResultPlace,
                                        @ModelAttribute("contact") @Valid Contact contact, BindingResult bindingResultContact,
+                                       @RequestParam Map<String, String> form,
                                        Model model) {
 
         if (bindingResultPlace.hasErrors()) {
@@ -53,7 +53,7 @@ public class CoffeeHouseAdministrationController {
             model.addAttribute("titleError", "Title of this place already exists!");
             return "createPlace";
         }
-        coffeeHouseService.createCoffeeHouse(coffeeHouse, contact);
+        coffeeHouseService.createCoffeeHouse(coffeeHouse, contact, form);
         return "places";
     }
 

@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserRoleAndStatus(User user, String username, Map<String, String> roles, String status) {
+    public void updateUserRoleAndStatus(User user, String username, Map<String, String> form, String status) {
         user.setUsername(username);
 
         Set<String> rolesSet = Arrays.stream(Role.values())
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toSet());
 
         user.getRoles().clear();
-        for (String key : roles.keySet()) {
+        for (String key : form.keySet()) {
             if (rolesSet.contains(key))
                 user.getRoles().add(Role.valueOf(key));
         }
