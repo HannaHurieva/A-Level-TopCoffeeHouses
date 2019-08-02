@@ -40,10 +40,10 @@ public class UserAdministrationController {
     @PostMapping
     public String updateUserRoleAndStatus(
             @RequestParam String username,
-            @RequestParam Map<String, String> roles,
-            @RequestParam String form,
+            @RequestParam Map<String, String> form,
+            @RequestParam String status,
             @RequestParam("userId") User user) {
-        userService.updateUserRoleAndStatus(user, username, roles, form);
+        userService.updateUserRoleAndStatus(user, username, form, status);
         return "redirect:/user";
     }
 }

@@ -1,9 +1,10 @@
 package com.alevel.project.coffee.controller;
 
-import com.alevel.project.coffee.model.CoffeeHouse;
 import com.alevel.project.coffee.model.Contact;
+import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
-import com.alevel.project.coffee.service.impl.CoffeeHouseServiceImpl;
+import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
+import com.alevel.project.coffee.service.impl.PlaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,26 +19,27 @@ import java.util.Map;
 @Controller
 @RequestMapping("/places")
 @PreAuthorize("hasAuthority('ADMIN')")
-public class CoffeeHouseAdministrationController {
-    private CoffeeHouseServiceImpl coffeeHouseService;
+public class PlaceAdministrationController {
+    private PlaceServiceImpl placeService;
 
     @Autowired
-    public void setCoffeeHouseService(CoffeeHouseServiceImpl coffeeHouseService) {
-        this.coffeeHouseService = coffeeHouseService;
+    public void setPlaceService(PlaceServiceImpl placeService) {
+        this.placeService = placeService;
     }
 
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("cuisineTypes", CuisineTypeEnum.values());
+        model.addAttribute("placeCategories", PlaceCategoryEnum.values());
         return "createPlace";
     }
 
     @PostMapping("/create")
     @Transactional
-    public String createNewCoffeeHouse(@ModelAttribute("coffeeHouse") @Valid CoffeeHouse coffeeHouse, BindingResult bindingResultPlace,
-                                       @ModelAttribute("contact") @Valid Contact contact, BindingResult bindingResultContact,
-                                       @RequestParam Map<String, String> form,
-                                       Model model) {
+    public String createNewPlace(@ModelAttribute("place") @Valid Place place, BindingResult bindingResultPlace,
+                                 @ModelAttribute("contact") @Valid Contact contact, BindingResult bindingResultContact,
+                                 @RequestParam Map<String, String> form,
+                                 Model model) {
 
         if (bindingResultPlace.hasErrors()) {
             Map<String, String> errorsPlace = ControllerUtils.getErrors(bindingResultPlace);
@@ -49,11 +51,11 @@ public class CoffeeHouseAdministrationController {
             model.mergeAttributes(errorsContact);
             return "createPlace";
         }
-        if (coffeeHouseService.isTitleExist(coffeeHouse)) {
+        if (placeService.isTitleExist(place)) {
             model.addAttribute("titleError", "Title of this place already exists!");
             return "createPlace";
         }
-        coffeeHouseService.createCoffeeHouse(coffeeHouse, contact, form);
+        placeService.createNewPlace(place, contact, form);
         return "places";
     }
 

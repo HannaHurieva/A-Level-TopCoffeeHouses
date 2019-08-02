@@ -8,9 +8,9 @@
     <div class="form-group row">
             <label class="col-sm-2 col-form-label">Title :</label>
             <div class="col-sm-6">
-                <input type="text" name="title" value="<#if coffeeHouse??>${coffeeHouse.title}</#if>"
+                <input type="text" name="title" value="<#if place??>${place.title}</#if>"
                 class="form-control ${(titleError??)?string('is-invalid', '')}"
-                placeholder="Title" />
+                placeholder="Title"/>
 
                 <small class="form-text text-muted">
                     * Input the title of place
@@ -42,7 +42,7 @@
         <div class="form-row">
             <label class="col-sm-2 col-form-label"> Working time :</label>
             <div class="col-sm-3">
-                <input type="number" name="timeOpening" value="<#if coffeeHouse??>${coffeeHouse.timeOpening}</#if>"
+                <input type="number" name="timeOpening" value="<#if place??>${place.timeOpening}</#if>"
                        class="form-control ${(timeOpeningError??)?string('is-invalid', '')}"
                        placeholder="Time opening"/>
 
@@ -54,7 +54,7 @@
             </div>
 
             <div class="col-sm-3">
-                <input type="number" name="timeClosing" value="<#if coffeeHouse??>${coffeeHouse.timeClosing}</#if>"
+                <input type="number" name="timeClosing" value="<#if place??>${place.timeClosing}</#if>"
                        class="form-control ${(timeClosingError??)?string('is-invalid', '')}"
                        placeholder="Time closing"/>
                 <#if timeClosingError??>
@@ -74,8 +74,9 @@
             </div>
         </div>
 
-        <#include "parts/createContact.ftl">
-        <#include "parts/cuisineType.ftl">
+        <#include "parts/contacts.ftl">
+        <#include "parts/cuisineTypes.ftl">
+        <#include "parts/placeCategories.ftl">
 
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <div class="col-sm-2"><input type="submit" value="Create"/></div>

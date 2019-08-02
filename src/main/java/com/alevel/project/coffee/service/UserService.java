@@ -18,7 +18,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    void updateUserRoleAndStatus(User user, String username, Map<String, String> roles, String status);
+    void updateUserRoleAndStatus(User user, String username, Map<String, String> form, String status);
 
     void updateUserProfile(User user, String firstName, String lastName, String email, String password);
 

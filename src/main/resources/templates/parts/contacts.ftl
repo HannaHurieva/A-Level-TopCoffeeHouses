@@ -28,14 +28,14 @@
 
         <div class="form-row">
             <label class="col-sm-2"></label>
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-3">
                 <label> Phone :</label>
                 <input type="text" name="phone" value="<#if contact??>${contact.phone}</#if>"
                        class="form-control"
                        placeholder="Phone" />
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-3">
                 <label> Web site :</label>
                 <input type="text" name="website" value="<#if contact??>${contact.website}</#if>"
                        class="form-control"

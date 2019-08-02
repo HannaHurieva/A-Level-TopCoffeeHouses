@@ -27,8 +27,8 @@ public class Contact {
     private String website;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
-    private CoffeeHouse coffeeHouse;
+    @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
+    private Place place;
 
     public Contact() {
     }
@@ -79,13 +79,13 @@ public class Contact {
         this.website = website;
     }
 
-    public CoffeeHouse getCoffeeHouse() {
-        return coffeeHouse;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-        coffeeHouse.setContact(this);
-        this.coffeeHouse = coffeeHouse;
+    public void setPlace(Place place) {
+        place.setContact(this);
+        this.place = place;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Contact {
         if (location != null ? !location.equals(contact.location) : contact.location != null) return false;
         if (phone != null ? !phone.equals(contact.phone) : contact.phone != null) return false;
         if (website != null ? !website.equals(contact.website) : contact.website != null) return false;
-        return coffeeHouse != null ? coffeeHouse.equals(contact.coffeeHouse) : contact.coffeeHouse == null;
+        return place != null ? place.equals(contact.place) : contact.place == null;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class Contact {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (website != null ? website.hashCode() : 0);
-        result = 31 * result + (coffeeHouse != null ? coffeeHouse.hashCode() : 0);
+        result = 31 * result + (place != null ? place.hashCode() : 0);
         return result;
     }
 
@@ -122,7 +122,7 @@ public class Contact {
                 ", location='" + location + '\'' +
                 ", phone='" + phone + '\'' +
                 ", website='" + website + '\'' +
-                ", coffeeHouse=" + coffeeHouse +
+                ", place=" + place +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.alevel.project.coffee.model;
 
 import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
+import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -11,12 +12,12 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "coffee_houses")
-public class CoffeeHouse implements Serializable {
+@Table(name = "places")
+public class Place implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coffee_house_id", unique = true, nullable = false)
+    @Column(name = "place_id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -37,31 +38,30 @@ public class CoffeeHouse implements Serializable {
     @Max(value = 23, message = "The time must be less than or equal to 23")
     private int timeClosing;
 
-    @OneToOne(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Contact contact;
 
-    @OneToOne(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Rating rating;
 
-    @OneToMany(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
     @ElementCollection(targetClass = CuisineTypeEnum.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "coffeeHouse_cuisineType", joinColumns = @JoinColumn(name = "fk_coffee_house_id"))
+    @CollectionTable(name = "place_cuisineType", joinColumns = @JoinColumn(name = "fk_place_id"))
     @Enumerated(EnumType.ORDINAL)
     private Set<CuisineTypeEnum> cuisineTypes;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "coffeeHouse_placeCategory",
-            joinColumns = @JoinColumn(name = "coffee_house_id"),
-            inverseJoinColumns = @JoinColumn(name = "place_category_id"))
-    private Set<PlaceCategory> placeCategories;
+    @ElementCollection(targetClass = PlaceCategoryEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "place_placeCategory", joinColumns = @JoinColumn(name = "fk_place_id"))
+    @Enumerated(EnumType.ORDINAL)
+    private Set<PlaceCategoryEnum> placeCategories;
 
-    public CoffeeHouse() {
+    public Place() {
     }
 
-    public CoffeeHouse(String title, String description,
-                       int timeOpening, int timeClosing, Contact contact) {
+    public Place(String title, String description,
+                 int timeOpening, int timeClosing, Contact contact) {
         this.title = title;
         this.description = description;
         this.timeOpening = timeOpening;
@@ -141,11 +141,11 @@ public class CoffeeHouse implements Serializable {
         this.cuisineTypes = cuisineTypes;
     }
 
-    public Set<PlaceCategory> getPlaceCategories() {
+    public Set<PlaceCategoryEnum> getPlaceCategories() {
         return placeCategories;
     }
 
-    public void setPlaceCategories(Set<PlaceCategory> placeCategories) {
+    public void setPlaceCategories(Set<PlaceCategoryEnum> placeCategories) {
         this.placeCategories = placeCategories;
     }
 
@@ -154,7 +154,7 @@ public class CoffeeHouse implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CoffeeHouse that = (CoffeeHouse) o;
+        Place that = (Place) o;
 
         if (timeOpening != that.timeOpening) return false;
         if (timeClosing != that.timeClosing) return false;
@@ -183,7 +183,7 @@ public class CoffeeHouse implements Serializable {
 
     @Override
     public String toString() {
-        return "CoffeeHouse{" +
+        return "Place{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
