@@ -19,7 +19,7 @@ public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false)
     private long id;
 
     @Column(name = "username", nullable = false)
@@ -47,14 +47,12 @@ public class User implements Serializable, UserDetails {
     private Status status;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "fk_user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Review> reviews;
-
-
 
     public User() {
     }
@@ -158,14 +156,18 @@ public class User implements Serializable, UserDetails {
         User user = (User) o;
         return id == user.id &&
                 username.equals(user.username) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
-                Objects.equals(roles, user.roles);
+                status == user.status &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(reviews, user.reviews);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, roles);
+        return Objects.hash(id, username, firstName, lastName, email, password, status, roles, reviews);
     }
 
     // DO-NOT-INCLUDE passwords in toString function
@@ -177,8 +179,9 @@ public class User implements Serializable, UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", roles=" + roles +
+                ", reviews=" + reviews +
                 '}';
     }
 
@@ -201,7 +204,6 @@ public class User implements Serializable, UserDetails {
     public boolean isEnabled() {
         return (status != Status.valueOf("NOT_ACTIVE"));
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
