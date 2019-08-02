@@ -33,7 +33,7 @@ public class UserReviewController {
     }
 
 
-    @PostMapping("/user/reviews/add")
+    @PostMapping("/add")
     public String addReview(
             @AuthenticationPrincipal User user,
             @Valid Review review,
@@ -47,31 +47,31 @@ public class UserReviewController {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            model.addAttribute("review", review);
+            model.addAttribute("reviews", null);
         } else {
 
-            model.addAttribute("review", null);
+            model.addAttribute("reviews", review);
 
             reviewRepository.save(review);
         }
 
         Iterable<Review> reviews = reviewRepository.findAll();
 
-        model.addAttribute("reviews", review);
+        model.addAttribute("reviews", reviews);
 
-        return "thanks for your review";
+        return "userReviews";
     }
 
 
     @Transactional
-    @GetMapping("/user/reviews")
-    public String getUserReviews(Model model, @AuthenticationPrincipal User user) {
+    @GetMapping("/getAll") //это заглушка
+    public String getUserReviews(@AuthenticationPrincipal User user, Model model) {
         Set<Review> reviews = user.getReviews();
         model.addAttribute("reviews", reviews);
         return "userReviews";
     }
 
-    @PostMapping("/user/reviews/{id}")
+    @PostMapping("{id}")
     public String updateReview(
             @AuthenticationPrincipal User currentUser,
             @PathVariable Long id,
@@ -89,7 +89,7 @@ public class UserReviewController {
         return "redirect:/user/review/" + id;
     }
 
-    @GetMapping("/user/reviews/delete/{id}")
+    @GetMapping("{id}")
     public String deleteReview(@AuthenticationPrincipal User currentUser,
                                @PathVariable Long id,
                                @RequestParam("id") Review review,

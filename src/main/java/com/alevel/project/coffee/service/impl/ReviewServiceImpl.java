@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Service("reviewService")
@@ -27,17 +28,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public String findByAuthor(User author) {
-        return null;
+    public List<Review> findByAuthor(User author) {
+        return reviewRepository.findByAuthor(author);
     }
 
     @Override
-    public void update(Long id, Review review) {
-
+    public String update( Review review, String text) {
+       return review.getText();
     }
 
     @Override
-    public Long add(Review review) {
-        return reviewRepository.save(review).getId();
+    public void add(Review review, User author) {
+        reviewRepository.save(review);
     }
 }

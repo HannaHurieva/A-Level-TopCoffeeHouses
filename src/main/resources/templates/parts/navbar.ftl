@@ -35,9 +35,6 @@
                 <a class="nav-link" href="/places">Places</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/user/reviews">Reviews</a>
-            </li>
 
             <#if isAdmin>
             <li class="nav-item">
@@ -47,7 +44,7 @@
 
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/reviews/">My Reviews</a>
+                    <a class="nav-link" href="/user/reviews">My Reviews</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user/profile">Profile</a>
