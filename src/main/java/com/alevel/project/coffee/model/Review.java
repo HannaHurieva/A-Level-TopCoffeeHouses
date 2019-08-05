@@ -28,9 +28,8 @@ public class Review implements Serializable {
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
+    @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
-
 
     @CreatedDate
     @Column(name = "created")
@@ -85,8 +84,6 @@ public class Review implements Serializable {
 
     public void setPlace(Place place) {
         this.place = place;
-    }
-
     public String getCreated() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y");
         return dateFormat.format(created);

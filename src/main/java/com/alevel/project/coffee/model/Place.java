@@ -1,52 +1,61 @@
 package com.alevel.project.coffee.model;
 
+import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
+import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "coffee_houses")
+@Table(name = "places")
 public class Place implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coffee_house_id", unique = true, nullable = false)
-    private int id;
+    @Column(name = "place_id", unique = true, nullable = false)
+    private Long id;
 
     @Column(name = "title", nullable = false)
     @NotBlank(message = "Title cannot be empty")
     private String title;
 
     @Column(name = "description")
+    @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String description;
 
     @Column(name = "timeOpening")
+    @Min(value = 0, message = "The time can not be negative, must be greater than or equal to 0")
+    @Max(value = 23, message = "The time must be less than or equal to 23")
     private int timeOpening;
 
     @Column(name = "timeClosing")
+    @Min(value = 0, message = "The time can not be negative, must be greater than or equal to 0")
+    @Max(value = 23, message = "The time must be less than or equal to 23")
     private int timeClosing;
 
-    @OneToOne(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Contact contact;
 
-    @OneToOne(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Rating rating;
 
-    @OneToMany(mappedBy = "coffeeHouse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "coffeeHouse_cuisineType",
-            joinColumns = @JoinColumn(name = "coffee_house_id"),
-            inverseJoinColumns = @JoinColumn(name = "cuisine_type_id"))
-    private Set<CuisineType> cuisineTypes;
+    @ElementCollection(targetClass = CuisineTypeEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "place_cuisineType", joinColumns = @JoinColumn(name = "fk_place_id"))
+    @Enumerated(EnumType.ORDINAL)
+    private Set<CuisineTypeEnum> cuisineTypes;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "coffeeHouse_placeCategory",
-            joinColumns = @JoinColumn(name = "coffee_house_id"),
-            inverseJoinColumns = @JoinColumn(name = "place_category_id"))
-    private Set<PlaceCategory> placeCategories;
+    @ElementCollection(targetClass = PlaceCategoryEnum.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "place_placeCategory", joinColumns = @JoinColumn(name = "fk_place_id"))
+    @Enumerated(EnumType.ORDINAL)
+    private Set<PlaceCategoryEnum> placeCategories;
 
     public Place() {
     }
@@ -60,11 +69,11 @@ public class Place implements Serializable {
         this.contact = contact;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -124,19 +133,19 @@ public class Place implements Serializable {
         this.reviews = reviews;
     }
 
-    public Set<CuisineType> getCuisineTypes() {
+    public Set<CuisineTypeEnum> getCuisineTypes() {
         return cuisineTypes;
     }
 
-    public void setCuisineTypes(Set<CuisineType> cuisineTypes) {
+    public void setCuisineTypes(Set<CuisineTypeEnum> cuisineTypes) {
         this.cuisineTypes = cuisineTypes;
     }
 
-    public Set<PlaceCategory> getPlaceCategories() {
+    public Set<PlaceCategoryEnum> getPlaceCategories() {
         return placeCategories;
     }
 
-    public void setPlaceCategories(Set<PlaceCategory> placeCategories) {
+    public void setPlaceCategories(Set<PlaceCategoryEnum> placeCategories) {
         this.placeCategories = placeCategories;
     }
 
@@ -147,22 +156,28 @@ public class Place implements Serializable {
 
         Place that = (Place) o;
 
-        if (id != that.id) return false;
         if (timeOpening != that.timeOpening) return false;
         if (timeClosing != that.timeClosing) return false;
+        if (!id.equals(that.id)) return false;
         if (!title.equals(that.title)) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return contact != null ? contact.equals(that.contact) : that.contact == null;
+        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
+        if (rating != null ? !rating.equals(that.rating) : that.rating != null) return false;
+        if (reviews != null ? !reviews.equals(that.reviews) : that.reviews != null) return false;
+        if (cuisineTypes != null ? !cuisineTypes.equals(that.cuisineTypes) : that.cuisineTypes != null) return false;
+        return placeCategories != null ? placeCategories.equals(that.placeCategories) : that.placeCategories == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + title.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + timeOpening;
         result = 31 * result + timeClosing;
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        result = 31 * result + (cuisineTypes != null ? cuisineTypes.hashCode() : 0);
+        result = 31 * result + (placeCategories != null ? placeCategories.hashCode() : 0);
         return result;
     }
 

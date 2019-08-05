@@ -26,7 +26,7 @@ public class Rating implements Serializable {
     private int ratingAtmosphere;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
+    @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 
     public Rating() {

@@ -18,8 +18,8 @@ import static com.alevel.project.coffee.model.enums.Status.ACTIVE;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepo userRepo;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserRoleAndStatus(User user, String username, Map<String, String> roles, String status) {
+    public void updateUserRoleAndStatus(User user, String username, Map<String, String> form, String status) {
         user.setUsername(username);
 
         Set<String> rolesSet = Arrays.stream(Role.values())
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toSet());
 
         user.getRoles().clear();
-        for (String key : roles.keySet()) {
+        for (String key : form.keySet()) {
             if (rolesSet.contains(key))
                 user.getRoles().add(Role.valueOf(key));
         }
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserProfile(User user, String firstName, String lastName,
-                              String email, String password) {
+                                  String email, String password) {
         if (!(user.getFirstName().equals(firstName))) {
             user.setFirstName(firstName);
         }
