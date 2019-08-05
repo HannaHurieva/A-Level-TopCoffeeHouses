@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "coffee_houses")
-public class CoffeeHouse implements Serializable {
+public class Place implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +48,11 @@ public class CoffeeHouse implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "place_category_id"))
     private Set<PlaceCategory> placeCategories;
 
-    public CoffeeHouse() {
+    public Place() {
     }
 
-    public CoffeeHouse(String title, String description,
-                       int timeOpening, int timeClosing, Contact contact) {
+    public Place(String title, String description,
+                 int timeOpening, int timeClosing, Contact contact) {
         this.title = title;
         this.description = description;
         this.timeOpening = timeOpening;
@@ -145,7 +145,7 @@ public class CoffeeHouse implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CoffeeHouse that = (CoffeeHouse) o;
+        Place that = (Place) o;
 
         if (id != that.id) return false;
         if (timeOpening != that.timeOpening) return false;
@@ -168,7 +168,7 @@ public class CoffeeHouse implements Serializable {
 
     @Override
     public String toString() {
-        return "CoffeeHouse{" +
+        return "Place{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

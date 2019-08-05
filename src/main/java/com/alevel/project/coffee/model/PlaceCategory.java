@@ -21,7 +21,7 @@ public class PlaceCategory implements Serializable {
     @JoinTable(name = "coffeeHouse_placeCategory",
             joinColumns = @JoinColumn(name = "place_category_id"),
             inverseJoinColumns = @JoinColumn(name = "coffee_house_id"))
-    private Set<CoffeeHouse> coffeeHouses;
+    private Set<Place> places;
 
     public PlaceCategory() {
     }
@@ -46,12 +46,12 @@ public class PlaceCategory implements Serializable {
         this.placeCategory = placeCategory;
     }
 
-    public Set<CoffeeHouse> getCoffeeHouses() {
-        return coffeeHouses;
+    public Set<Place> getPlaces() {
+        return places;
     }
 
-    public void setCoffeeHouses(Set<CoffeeHouse> coffeeHouses) {
-        this.coffeeHouses = coffeeHouses;
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
     }
 
     @Override
@@ -61,12 +61,12 @@ public class PlaceCategory implements Serializable {
         PlaceCategory that = (PlaceCategory) o;
         return id == that.id &&
                 Objects.equals(placeCategory, that.placeCategory) &&
-                Objects.equals(coffeeHouses, that.coffeeHouses);
+                Objects.equals(places, that.places);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, placeCategory, coffeeHouses);
+        return Objects.hash(id, placeCategory, places);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class PlaceCategory implements Serializable {
         return "PlaceCategory{" +
                 "id=" + id +
                 ", placeCategory='" + placeCategory + '\'' +
-                ", coffeeHouses=" + coffeeHouses +
+                ", places=" + places +
                 '}';
     }
 }

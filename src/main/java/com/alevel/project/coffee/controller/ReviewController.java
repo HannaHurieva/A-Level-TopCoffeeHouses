@@ -28,7 +28,7 @@ public class ReviewController {
     }
 
 
-    @GetMapping
+    @GetMapping("/")
     public String review(Map<String, Object> model) {
         Iterable<Review> reviews = reviewRepository.findAll();
         model.put("reviews", reviews);

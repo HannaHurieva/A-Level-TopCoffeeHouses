@@ -27,19 +27,19 @@ public class Rating implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
-    private CoffeeHouse coffeeHouse;
+    private Place place;
 
     public Rating() {
     }
 
     public Rating(int ratingFoodQuality, int ratingServiceQuality,
                   int ratingPriceQuality, int ratingAtmosphere,
-                  CoffeeHouse coffeeHouse) {
+                  Place place) {
         this.ratingFoodQuality = ratingFoodQuality;
         this.ratingServiceQuality = ratingServiceQuality;
         this.ratingPriceQuality = ratingPriceQuality;
         this.ratingAtmosphere = ratingAtmosphere;
-        this.coffeeHouse = coffeeHouse;
+        this.place = place;
     }
 
     public int getId() {
@@ -82,13 +82,13 @@ public class Rating implements Serializable {
         this.ratingAtmosphere = ratingAtmosphere;
     }
 
-    public CoffeeHouse getCoffeeHouse() {
-        return coffeeHouse;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-        coffeeHouse.setRating(this);
-        this.coffeeHouse = coffeeHouse;
+    public void setPlace(Place place) {
+        place.setRating(this);
+        this.place = place;
     }
 
     @Override
@@ -101,12 +101,12 @@ public class Rating implements Serializable {
                 ratingServiceQuality == rating.ratingServiceQuality &&
                 ratingPriceQuality == rating.ratingPriceQuality &&
                 ratingAtmosphere == rating.ratingAtmosphere &&
-                Objects.equals(coffeeHouse, rating.coffeeHouse);
+                Objects.equals(place, rating.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ratingFoodQuality, ratingServiceQuality, ratingPriceQuality, ratingAtmosphere, coffeeHouse);
+        return Objects.hash(id, ratingFoodQuality, ratingServiceQuality, ratingPriceQuality, ratingAtmosphere, place);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Rating implements Serializable {
                 ", ratingServiceQuality=" + ratingServiceQuality +
                 ", ratingPriceQuality=" + ratingPriceQuality +
                 ", ratingAtmosphere=" + ratingAtmosphere +
-                ", coffeeHouse=" + coffeeHouse +
+                ", place=" + place +
                 '}';
     }
 }

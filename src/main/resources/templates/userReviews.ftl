@@ -12,7 +12,8 @@
                     <span>${review.text}</span><br/>
                 </div>
                 <div class="card-footer text-muted">
-                    <a href="/user/review/">${review.authorName}</a>
+                    <a href="/user/reviews">${review.authorName}</a>
+
                 </div>
             </div>
         <#else>

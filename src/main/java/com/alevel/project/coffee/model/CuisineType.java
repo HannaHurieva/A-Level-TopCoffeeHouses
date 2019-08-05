@@ -21,7 +21,7 @@ public class CuisineType implements Serializable {
     @JoinTable(name = "coffeeHouse_cuisineType",
             joinColumns = @JoinColumn(name = "cuisine_type_id"),
             inverseJoinColumns = @JoinColumn(name = "coffee_house_id"))
-    private Set<CoffeeHouse> coffeeHouses;
+    private Set<Place> places;
 
     public CuisineType() {
     }
@@ -46,12 +46,12 @@ public class CuisineType implements Serializable {
         this.cuisineType = cuisineType;
     }
 
-    public Set<CoffeeHouse> getCoffeeHouses() {
-        return coffeeHouses;
+    public Set<Place> getPlaces() {
+        return places;
     }
 
-    public void setCoffeeHouses(Set<CoffeeHouse> coffeeHouses) {
-        this.coffeeHouses = coffeeHouses;
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
     }
 
     @Override
@@ -61,12 +61,12 @@ public class CuisineType implements Serializable {
         CuisineType that = (CuisineType) o;
         return id == that.id &&
                 Objects.equals(cuisineType, that.cuisineType) &&
-                Objects.equals(coffeeHouses, that.coffeeHouses);
+                Objects.equals(places, that.places);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cuisineType, coffeeHouses);
+        return Objects.hash(id, cuisineType, places);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CuisineType implements Serializable {
         return "CuisineType{" +
                 "id=" + id +
                 ", cuisineType='" + cuisineType + '\'' +
-                ", coffeeHouses=" + coffeeHouses +
+                ", places=" + places +
                 '}';
     }
 }

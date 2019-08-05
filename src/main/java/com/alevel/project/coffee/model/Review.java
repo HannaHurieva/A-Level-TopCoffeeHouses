@@ -1,10 +1,13 @@
 package com.alevel.project.coffee.model;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -26,7 +29,17 @@ public class Review implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
-    private CoffeeHouse coffeeHouse;
+    private Place place;
+
+
+    @CreatedDate
+    @Column(name = "created")
+    private Date created;
+
+
+  /*  @LastModifiedDate
+    @Column(name = "updated")
+    private Date updated;*/
 
 
     public Review() {
@@ -35,6 +48,7 @@ public class Review implements Serializable {
     public Review(String text, User author) {
         this.text = text;
         this.author = author;
+
     }
 
     public String getAuthorName() {
@@ -65,12 +79,22 @@ public class Review implements Serializable {
         this.author = author;
     }
 
-    public CoffeeHouse getCoffeeHouse() {
-        return coffeeHouse;
+    public Place getPlace() {
+        return place;
+    }
 
-        public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-            this.coffeeHouse = coffeeHouse;
-        }
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+    public String getCreated() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y");
+        return dateFormat.format(created);
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
 
     @Override
@@ -81,14 +105,14 @@ public class Review implements Serializable {
         return id == review.id &&
                 Objects.equals(text, review.text) &&
                 Objects.equals(author, review.author) &&
-                Objects.equals(coffeeHouse, review.coffeeHouse);
+                Objects.equals(place, review.place) &&
+                Objects.equals(created, review.created);
     }
-        @Override
-        public int hashCode() {
-            return Objects.hash(id, text, author, coffeeHouse);
-        }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, author, place, created);
+    }
 
     @Override
     public String toString() {
@@ -96,7 +120,9 @@ public class Review implements Serializable {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", author=" + author +
-                ", coffeeHouse=" + coffeeHouse +
+                ", place=" + place +
+                ", created=" + created +
                 '}';
     }
 }
+
