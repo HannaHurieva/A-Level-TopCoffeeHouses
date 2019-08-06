@@ -48,12 +48,12 @@ public class Place implements Serializable {
     private Set<Review> reviews;
 
     @ElementCollection(targetClass = CuisineTypeEnum.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "place_cuisineType", joinColumns = @JoinColumn(name = "fk_place_id"))
+    @CollectionTable(name = "place_cuisine_type", joinColumns = @JoinColumn(name = "fk_place_id"))
     @Enumerated(EnumType.ORDINAL)
     private Set<CuisineTypeEnum> cuisineTypes;
 
     @ElementCollection(targetClass = PlaceCategoryEnum.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "place_placeCategory", joinColumns = @JoinColumn(name = "fk_place_id"))
+    @CollectionTable(name = "place_category", joinColumns = @JoinColumn(name = "fk_place_id"))
     @Enumerated(EnumType.ORDINAL)
     private Set<PlaceCategoryEnum> placeCategories;
 
