@@ -28,6 +28,7 @@ public class Review implements Serializable {
     @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
     private CoffeeHouse coffeeHouse;
 
+
     public Review() {
     }
 
@@ -66,11 +67,11 @@ public class Review implements Serializable {
 
     public CoffeeHouse getCoffeeHouse() {
         return coffeeHouse;
-    }
 
-    public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-        this.coffeeHouse = coffeeHouse;
-    }
+        public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
+            this.coffeeHouse = coffeeHouse;
+        }
+
 
     @Override
     public boolean equals(Object o) {
@@ -82,11 +83,12 @@ public class Review implements Serializable {
                 Objects.equals(author, review.author) &&
                 Objects.equals(coffeeHouse, review.coffeeHouse);
     }
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, text, author, coffeeHouse);
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, text, author, coffeeHouse);
-    }
+
 
     @Override
     public String toString() {
