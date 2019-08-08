@@ -2,8 +2,8 @@ package com.alevel.project.coffee.controller;
 
 import com.alevel.project.coffee.model.Contact;
 import com.alevel.project.coffee.model.Place;
-import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
-import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
+import com.alevel.project.coffee.service.impl.CuisineTypeServiceImpl;
+import com.alevel.project.coffee.service.impl.PlaceCategoryServiceImpl;
 import com.alevel.project.coffee.service.impl.PlaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,16 +21,28 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class PlaceAdministrationController {
     private PlaceServiceImpl placeService;
+    private CuisineTypeServiceImpl cuisineTypeService;
+    private PlaceCategoryServiceImpl placeCategoryService;
 
     @Autowired
     public void setPlaceService(PlaceServiceImpl placeService) {
         this.placeService = placeService;
     }
 
+    @Autowired
+    public void setCuisineTypeService(CuisineTypeServiceImpl cuisineTypeService) {
+        this.cuisineTypeService = cuisineTypeService;
+    }
+
+    @Autowired
+    public void setPlaceCategoryService(PlaceCategoryServiceImpl placeCategoryService) {
+        this.placeCategoryService = placeCategoryService;
+    }
+
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("cuisineTypes", CuisineTypeEnum.values());
-        model.addAttribute("placeCategories", PlaceCategoryEnum.values());
+        model.addAttribute("cuisineTypes", cuisineTypeService.findAll());
+        model.addAttribute("placeCategories", placeCategoryService.findAll());
         return "createPlace";
     }
 
