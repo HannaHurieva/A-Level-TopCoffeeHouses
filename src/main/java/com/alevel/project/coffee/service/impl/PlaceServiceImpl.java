@@ -44,14 +44,13 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void createNewPlace(Place place, Contact contact, Map<String, String> form) {
-        CuisineType cuisineTypeOfPlace = new CuisineType();
         Set<CuisineType> cuisineTypes = new HashSet<>();
-        PlaceCategory placeCategory = new PlaceCategory();
         Set<PlaceCategory> placeCategories = new HashSet<>();
 
         for (String key : form.keySet()) {
             Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
             if (cuisineTypeFromDB.isPresent()) {
+                CuisineType cuisineTypeOfPlace = new CuisineType();
                 cuisineTypeOfPlace.setId(cuisineTypeFromDB.get().getId());
                 cuisineTypeOfPlace.setCuisineType(key);
                 cuisineTypes.add(cuisineTypeOfPlace);
@@ -59,6 +58,7 @@ public class PlaceServiceImpl implements PlaceService {
 
             Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
             if (placeCategoryFromDB.isPresent()) {
+                PlaceCategory placeCategory = new PlaceCategory();
                 placeCategory.setId(placeCategoryFromDB.get().getId());
                 placeCategory.setPlaceCategory(key);
                 placeCategories.add(placeCategory);
