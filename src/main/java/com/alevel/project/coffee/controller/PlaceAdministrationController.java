@@ -53,22 +53,32 @@ public class PlaceAdministrationController {
                                  @RequestParam Map<String, String> form,
                                  Model model) {
 
-        if (bindingResultPlace.hasErrors()) {
-            Map<String, String> errorsPlace = ControllerUtils.getErrors(bindingResultPlace);
-            model.mergeAttributes(errorsPlace);
-            return "createPlace";
-        }
-        if (bindingResultContact.hasErrors()) {
-            Map<String, String> errorsContact = ControllerUtils.getErrors(bindingResultContact);
-            model.mergeAttributes(errorsContact);
-            return "createPlace";
-        }
-        if (placeService.isTitleExist(place)) {
-            model.addAttribute("titleError", "Title of this place already exists!");
+        if (isValidationHasErrors(place, bindingResultPlace, contact, bindingResultContact, model)) {
+            model.addAttribute("cuisineTypes", cuisineTypeService.findAll());
+            model.addAttribute("placeCategories", placeCategoryService.findAll());
             return "createPlace";
         }
         placeService.createNewPlace(place, contact, form);
         return "places";
     }
 
+    private boolean isValidationHasErrors(@ModelAttribute("place") @Valid Place place, BindingResult bindingResultPlace,
+                                          @ModelAttribute("contact") @Valid Contact contact, BindingResult bindingResultContact,
+                                          Model model){
+        if (bindingResultPlace.hasErrors()) {
+            Map<String, String> errorsPlace = ControllerUtils.getErrors(bindingResultPlace);
+            model.mergeAttributes(errorsPlace);
+            return true;
+        }
+        if (bindingResultContact.hasErrors()) {
+            Map<String, String> errorsContact = ControllerUtils.getErrors(bindingResultContact);
+            model.mergeAttributes(errorsContact);
+            return true;
+        }
+        if (placeService.isTitleExist(place)) {
+            model.addAttribute("titleError", "Title of this place already exists!");
+            return true;
+        }
+        return false;
+    }
 }
