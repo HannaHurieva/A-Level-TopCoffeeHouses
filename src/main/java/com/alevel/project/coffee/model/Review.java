@@ -67,10 +67,11 @@ public class Review implements Serializable {
 
     public CoffeeHouse getCoffeeHouse() {
         return coffeeHouse;
+    }
 
-        public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-            this.coffeeHouse = coffeeHouse;
-        }
+    public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
+        this.coffeeHouse = coffeeHouse;
+    }
 
 
     @Override
@@ -83,11 +84,11 @@ public class Review implements Serializable {
                 Objects.equals(author, review.author) &&
                 Objects.equals(coffeeHouse, review.coffeeHouse);
     }
-        @Override
-        public int hashCode() {
-            return Objects.hash(id, text, author, coffeeHouse);
-        }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, author, coffeeHouse);
+    }
 
 
     @Override

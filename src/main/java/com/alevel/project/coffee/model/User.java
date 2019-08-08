@@ -161,13 +161,12 @@ public class User implements Serializable, UserDetails {
                 email.equals(user.email) &&
                 password.equals(user.password) &&
                 status == user.status &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(reviews, user.reviews);
+                Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstName, lastName, email, password, status, roles, reviews);
+        return Objects.hash(id, username, firstName, lastName, email, password, status, roles);
     }
 
     // DO-NOT-INCLUDE passwords in toString function
@@ -180,9 +179,7 @@ public class User implements Serializable, UserDetails {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", status=" + status +
-                ", roles=" + roles +
-                ", reviews=" + reviews +
-                '}';
+                ", roles=" + roles + '}';
     }
 
     @Override
