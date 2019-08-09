@@ -1,7 +1,5 @@
 package com.alevel.project.coffee.model;
 
-import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
-import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -49,15 +47,17 @@ public class Place implements Serializable {
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
-    @ElementCollection(targetClass = CuisineTypeEnum.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "place_cuisineType", joinColumns = @JoinColumn(name = "fk_place_id"))
-    @Enumerated(EnumType.ORDINAL)
-    private Set<CuisineTypeEnum> cuisineTypes;
+    @ManyToMany
+    @JoinTable(name = "place_cuisine_type",
+            joinColumns = @JoinColumn(name = "place_id"),
+            inverseJoinColumns = @JoinColumn(name = "cuisine_type_id"))
+    private Set<CuisineType> cuisineTypes;
 
-    @ElementCollection(targetClass = PlaceCategoryEnum.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "place_placeCategory", joinColumns = @JoinColumn(name = "fk_place_id"))
-    @Enumerated(EnumType.ORDINAL)
-    private Set<PlaceCategoryEnum> placeCategories;
+    @ManyToMany
+    @JoinTable(name = "place_to_place_category",
+            joinColumns = @JoinColumn(name = "place_id"),
+            inverseJoinColumns = @JoinColumn(name = "place_category_id"))
+    private Set<PlaceCategory> placeCategories;
 
     public Place() {
     }
@@ -135,19 +135,19 @@ public class Place implements Serializable {
         this.reviews = reviews;
     }
 
-    public Set<CuisineTypeEnum> getCuisineTypes() {
+    public Set<CuisineType> getCuisineTypes() {
         return cuisineTypes;
     }
 
-    public void setCuisineTypes(Set<CuisineTypeEnum> cuisineTypes) {
+    public void setCuisineTypes(Set<CuisineType> cuisineTypes) {
         this.cuisineTypes = cuisineTypes;
     }
 
-    public Set<PlaceCategoryEnum> getPlaceCategories() {
+    public Set<PlaceCategory> getPlaceCategories() {
         return placeCategories;
     }
 
-    public void setPlaceCategories(Set<PlaceCategoryEnum> placeCategories) {
+    public void setPlaceCategories(Set<PlaceCategory> placeCategories) {
         this.placeCategories = placeCategories;
     }
 
