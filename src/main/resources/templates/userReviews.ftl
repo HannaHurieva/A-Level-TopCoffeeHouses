@@ -6,20 +6,18 @@
 
     <#include "parts/security.ftl">
     <div class="card-columns">
-        <#list reviews as review>
-            <div class="card my-3">
-                <div class="m-2">
-                    <span>${review.text}</span><br/>
-                </div>
-                <div class="card-footer text-muted">
-                    <a href="/user/reviews">${review.authorName}</a>
+    <#list reviews as review>
+    <div class="card my-3">
+        <div class="m-2">
+            <span>${review.text}</span><br/>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/user/reviews">${review.authorName}</a>
 
-                </div>
-            </div>
-        <#else>
-            No review
-        </#list>
-    </div>
+                <#else>
+                    No review
+                </#list>
+        </div>
 
-    <div class="m-2"><a href="/user/profile">Profile</div>
+        <div class="m-2"><a href="/user/profile">Profile</div>
 </@c.page>

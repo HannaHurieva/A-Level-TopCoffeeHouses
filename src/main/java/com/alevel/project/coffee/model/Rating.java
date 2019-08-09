@@ -29,6 +29,10 @@ public class Rating implements Serializable {
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 
+
+    @Column(name = "midRating" )
+    private int midrating;
+
     public Rating() {
     }
 
@@ -41,6 +45,7 @@ public class Rating implements Serializable {
         this.ratingAtmosphere = ratingAtmosphere;
         this.place = place;
     }
+
 
     public int getId() {
         return id;
@@ -91,6 +96,14 @@ public class Rating implements Serializable {
         this.place = place;
     }
 
+    public int getMidrating() {
+        return midrating;
+    }
+
+    public void setMidrating(int midrating) {
+        this.midrating = (ratingAtmosphere + ratingFoodQuality + ratingPriceQuality + ratingServiceQuality) / 2;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,12 +114,13 @@ public class Rating implements Serializable {
                 ratingServiceQuality == rating.ratingServiceQuality &&
                 ratingPriceQuality == rating.ratingPriceQuality &&
                 ratingAtmosphere == rating.ratingAtmosphere &&
+                midrating == rating.midrating &&
                 Objects.equals(place, rating.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ratingFoodQuality, ratingServiceQuality, ratingPriceQuality, ratingAtmosphere, place);
+        return Objects.hash(id, ratingFoodQuality, ratingServiceQuality, ratingPriceQuality, ratingAtmosphere, place, midrating);
     }
 
     @Override
@@ -118,6 +132,7 @@ public class Rating implements Serializable {
                 ", ratingPriceQuality=" + ratingPriceQuality +
                 ", ratingAtmosphere=" + ratingAtmosphere +
                 ", place=" + place +
+                ", midrating=" + midrating +
                 '}';
     }
 }

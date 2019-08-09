@@ -84,15 +84,15 @@ public class Review implements Serializable {
 
     public void setPlace(Place place) {
         this.place = place;
-    public String getCreated() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y");
-        return dateFormat.format(created);
+    }
+
+    public Date getCreated() {
+        return created;
     }
 
     public void setCreated(Date created) {
         this.created = created;
     }
-
 
     @Override
     public boolean equals(Object o) {
