@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -41,6 +42,7 @@ public class Place implements Serializable {
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Rating rating;
+
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviews;
@@ -149,6 +151,8 @@ public class Place implements Serializable {
         this.placeCategories = placeCategories;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -160,12 +164,12 @@ public class Place implements Serializable {
         if (timeClosing != that.timeClosing) return false;
         if (!id.equals(that.id)) return false;
         if (!title.equals(that.title)) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
-        if (rating != null ? !rating.equals(that.rating) : that.rating != null) return false;
-        if (reviews != null ? !reviews.equals(that.reviews) : that.reviews != null) return false;
-        if (cuisineTypes != null ? !cuisineTypes.equals(that.cuisineTypes) : that.cuisineTypes != null) return false;
-        return placeCategories != null ? placeCategories.equals(that.placeCategories) : that.placeCategories == null;
+        if (!Objects.equals(description, that.description)) return false;
+        if (!Objects.equals(contact, that.contact)) return false;
+        if (!Objects.equals(rating, that.rating)) return false;
+        if (!Objects.equals(reviews, that.reviews)) return false;
+        if (!Objects.equals(cuisineTypes, that.cuisineTypes)) return false;
+        return Objects.equals(placeCategories, that.placeCategories);
     }
 
     @Override

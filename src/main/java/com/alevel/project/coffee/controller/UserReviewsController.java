@@ -17,21 +17,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/user/reviews")
-public class UserReviewController {
+public class UserReviewsController {
 
     private ReviewRepository reviewRepository;
     private ReviewService reviewService;
 
-    @Autowired
+   /* @Autowired
     public void setReviewRepository(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
-
+*/
+   @Autowired
+   public void setReviewService(ReviewService reviewService){
+       this.reviewService = reviewService;
+   }
 
     @PostMapping("/add")
     public String addReview(
@@ -47,15 +52,16 @@ public class UserReviewController {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
-            model.addAttribute("reviews", null);
+            model.addAttribute("reviews", review);
         } else {
 
-            model.addAttribute("reviews", review);
-
-            reviewRepository.save(review);
+            model.addAttribute("reviews", null);
+            reviewService.add(review,user);
+           // reviewRepository.save(review);
         }
 
-        Iterable<Review> reviews = reviewRepository.findAll();
+       // Iterable<Review> reviews = reviewRepository.findAll();
+        Iterable<Review> reviews = reviewService.findAll();
 
         model.addAttribute("reviews", reviews);
 
@@ -64,9 +70,9 @@ public class UserReviewController {
 
 
     @Transactional
-    @GetMapping("/getAll") //это заглушка
+    @GetMapping
     public String getUserReviews(@AuthenticationPrincipal User user, Model model) {
-        Set<Review> reviews = user.getReviews();
+        List<Review> reviews = reviewService.findByAuthor(user);
         model.addAttribute("reviews", reviews);
         return "userReviews";
     }
@@ -86,7 +92,7 @@ public class UserReviewController {
             reviewRepository.save(review);
         }
 
-        return "redirect:/user/review/" + id;
+        return "redirect:/user/reviews/" + id;
     }
 
     @GetMapping("{id}")
