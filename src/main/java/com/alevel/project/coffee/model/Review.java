@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+
+
 @Entity
 @Table(name = "reviews")
 public class Review implements Serializable {
