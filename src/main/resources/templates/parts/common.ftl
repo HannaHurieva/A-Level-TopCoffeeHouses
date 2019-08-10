@@ -18,14 +18,14 @@
         <style>
             li {
                 list-style-type: none;
-                /* Убираем маркеры */
+                /* Remove markers */
             }
 
             ul {
                 margin-left: 0;
-                /* Отступ слева в браузере IE и Opera */
+                /* Indent left in IE and Opera browser */
                 padding-left: 0;
-                /* Отступ слева в браузере Firefox, Safari, Chrome */
+                /* Indent left in Firefox, Safari, Chrome browser */
             }
         </style>
     </head>

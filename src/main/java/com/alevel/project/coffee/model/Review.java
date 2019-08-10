@@ -25,8 +25,8 @@ public class Review implements Serializable {
     private User author;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_coffee_house_id", referencedColumnName = "coffee_house_id")
-    private CoffeeHouse coffeeHouse;
+    @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
+    private Place place;
 
 
     public Review() {
@@ -65,12 +65,12 @@ public class Review implements Serializable {
         this.author = author;
     }
 
-    public CoffeeHouse getCoffeeHouse() {
-        return coffeeHouse;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setCoffeeHouse(CoffeeHouse coffeeHouse) {
-        this.coffeeHouse = coffeeHouse;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
 
@@ -82,12 +82,12 @@ public class Review implements Serializable {
         return id == review.id &&
                 Objects.equals(text, review.text) &&
                 Objects.equals(author, review.author) &&
-                Objects.equals(coffeeHouse, review.coffeeHouse);
+                Objects.equals(place, review.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, author, coffeeHouse);
+        return Objects.hash(id, text, author, place);
     }
 
 
@@ -97,7 +97,7 @@ public class Review implements Serializable {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", author=" + author +
-                ", coffeeHouse=" + coffeeHouse +
+                ", place=" + place +
                 '}';
     }
 }

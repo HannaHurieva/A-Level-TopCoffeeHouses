@@ -48,7 +48,7 @@ public class UserAdministrationControllerTest {
         this.mockMvc.perform(get("/user"))
                 .andDo(print())
                 .andExpect(content().string(containsString("List of users")))
-                .andExpect(xpath("//*[@id='userList']/tr").nodeCount(2));
+                .andExpect(xpath("/html/body/div/table/tbody/tr").nodeCount(2));
     }
 
     @Test
@@ -56,9 +56,9 @@ public class UserAdministrationControllerTest {
         this.mockMvc.perform(get("/user"))
                 .andDo(print())
                 .andExpect(content().string(containsString("List of users")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]")
+                .andExpect(xpath("/html/body/div")
                         .string(containsString("ADMIN")))
-                .andExpect(xpath("//*[@id=\"userList\"]/tr[2][@data-id=1]/td[2]")
+                .andExpect(xpath("/html/body/div")
                         .string(containsString("USER")));
     }
 
