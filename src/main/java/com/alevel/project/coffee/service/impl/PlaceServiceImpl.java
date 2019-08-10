@@ -1,55 +1,71 @@
 package com.alevel.project.coffee.service.impl;
 
 import com.alevel.project.coffee.model.Contact;
+import com.alevel.project.coffee.model.CuisineType;
 import com.alevel.project.coffee.model.Place;
-import com.alevel.project.coffee.model.enums.CuisineTypeEnum;
-import com.alevel.project.coffee.model.enums.PlaceCategoryEnum;
+import com.alevel.project.coffee.model.PlaceCategory;
 import com.alevel.project.coffee.repository.ContactRepo;
+import com.alevel.project.coffee.repository.CuisineTypeRepo;
+import com.alevel.project.coffee.repository.PlaceCategoryRepo;
 import com.alevel.project.coffee.repository.PlaceRepo;
 import com.alevel.project.coffee.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
 
-    private final PlaceRepo placeRepo;
-    private final ContactRepo contactRepo;
+    private PlaceRepo placeRepo;
+    private ContactRepo contactRepo;
+    private CuisineTypeRepo cuisineTypeRepo;
+    private PlaceCategoryRepo placeCategoryRepo;
 
     @Autowired
-    public PlaceServiceImpl(PlaceRepo placeRepo, ContactRepo contactRepo) {
+    public void setPlaceRepo(PlaceRepo placeRepo) {
         this.placeRepo = placeRepo;
+    }
+
+    @Autowired
+    public void setContactRepo(ContactRepo contactRepo) {
         this.contactRepo = contactRepo;
+    }
+
+    @Autowired
+    public void setCuisineTypeRepo(CuisineTypeRepo cuisineTypeRepo) {
+        this.cuisineTypeRepo = cuisineTypeRepo;
+    }
+
+    @Autowired
+    public void setPlaceCategoryRepo(PlaceCategoryRepo placeCategoryRepo) {
+        this.placeCategoryRepo = placeCategoryRepo;
     }
 
     @Override
     public void createNewPlace(Place place, Contact contact, Map<String, String> form) {
-        //get data for types of cuisine
-        Set<String> cuisineSet = Arrays.stream(CuisineTypeEnum.values())
-                .map(CuisineTypeEnum::name)
-                .collect(Collectors.toSet());
+        Set<CuisineType> cuisineTypes = new HashSet<>();
+        Set<PlaceCategory> placeCategories = new HashSet<>();
 
-        Set<CuisineTypeEnum> cuisineTypesOfPlace = new HashSet<>();
         for (String key : form.keySet()) {
-            if (cuisineSet.contains(key))
-                cuisineTypesOfPlace.add(CuisineTypeEnum.valueOf(key));
-        }
-        place.setCuisineTypes(cuisineTypesOfPlace);
+            Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
+            if (cuisineTypeFromDB.isPresent()) {
+                CuisineType cuisineTypeOfPlace = new CuisineType();
+                cuisineTypeOfPlace.setId(cuisineTypeFromDB.get().getId());
+                cuisineTypeOfPlace.setCuisineType(key);
+                cuisineTypes.add(cuisineTypeOfPlace);
+            }
 
-        //get data for categories of place
-        Set<String> categorySet = Arrays.stream(PlaceCategoryEnum.values())
-                .map(PlaceCategoryEnum::name)
-                .collect(Collectors.toSet());
-
-        Set<PlaceCategoryEnum> categoriesOfPlace = new HashSet<>();
-        for (String key : form.keySet()) {
-            if (categorySet.contains(key))
-                categoriesOfPlace.add(PlaceCategoryEnum.valueOf(key));
+            Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
+            if (placeCategoryFromDB.isPresent()) {
+                PlaceCategory placeCategory = new PlaceCategory();
+                placeCategory.setId(placeCategoryFromDB.get().getId());
+                placeCategory.setPlaceCategory(key);
+                placeCategories.add(placeCategory);
+            }
         }
-        place.setPlaceCategories(categoriesOfPlace);
+        place.setCuisineTypes(cuisineTypes);
+        place.setPlaceCategories(placeCategories);
 
         placeRepo.saveAndFlush(place);
         contact.setPlace(place);
