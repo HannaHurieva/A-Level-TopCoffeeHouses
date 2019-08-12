@@ -1,5 +1,6 @@
 package com.alevel.project.coffee.service.impl;
 
+import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.repository.ReviewRepository;
@@ -7,24 +8,33 @@ import com.alevel.project.coffee.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 @Service("reviewService")
 public class ReviewServiceImpl implements ReviewService {
 
-    @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
+    }
+
+
+    @Override
+    public void createNewReview(Review review, User author) {
+        review.setAuthor(author);
+        reviewRepository.save(review);
+    }
+
+    @Override
+    public void save(Review review) {
+        reviewRepository.save(review);
+    }
 
     @Override
     public Iterable<Review> findAll() {
         return reviewRepository.findAll();
-    }
-
-    @Override
-    public void deleteById(long id) {
-        reviewRepository.deleteById(id);
     }
 
     @Override
@@ -33,12 +43,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public String update( Review review, String text) {
-       return review.getText();
+    public List<Review> findByPlace(Place place) {
+        return reviewRepository.findByPlace(place);
     }
 
     @Override
-    public void add(Review review, User author) {
-        reviewRepository.save(review);
+    public String update(Review review, String text) {
+        return review.getText();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        reviewRepository.deleteById(id);
     }
 }

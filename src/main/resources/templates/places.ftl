@@ -3,9 +3,9 @@
 
 <@c.page>
     <h5>Welcome to CoffeeIN!</h5>
-
+    <#include "parts/placesList.ftl">
     <div>
-        <a href="/user/reviews">Write a feedback</a>
+        <a href="/place/reviews/add">Write a feedback</a>
     </div>
 
     <#if isAdmin>

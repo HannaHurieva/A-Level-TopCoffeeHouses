@@ -7,7 +7,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -151,37 +150,27 @@ public class Place implements Serializable {
         this.placeCategories = placeCategories;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Place that = (Place) o;
+        Place place = (Place) o;
 
-        if (timeOpening != that.timeOpening) return false;
-        if (timeClosing != that.timeClosing) return false;
-        if (!id.equals(that.id)) return false;
-        if (!title.equals(that.title)) return false;
-        if (!Objects.equals(description, that.description)) return false;
-        if (!Objects.equals(contact, that.contact)) return false;
-        if (!Objects.equals(rating, that.rating)) return false;
-        if (!Objects.equals(reviews, that.reviews)) return false;
-        if (!Objects.equals(cuisineTypes, that.cuisineTypes)) return false;
-        return Objects.equals(placeCategories, that.placeCategories);
+        if (timeOpening != place.timeOpening) return false;
+        if (timeClosing != place.timeClosing) return false;
+        if (id != null ? !id.equals(place.id) : place.id != null) return false;
+        if (title != null ? !title.equals(place.title) : place.title != null) return false;
+        return description != null ? description.equals(place.description) : place.description == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + title.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + timeOpening;
         result = 31 * result + timeClosing;
-        result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (cuisineTypes != null ? cuisineTypes.hashCode() : 0);
-        result = 31 * result + (placeCategories != null ? placeCategories.hashCode() : 0);
         return result;
     }
 
@@ -193,11 +182,6 @@ public class Place implements Serializable {
                 ", description='" + description + '\'' +
                 ", timeOpening=" + timeOpening +
                 ", timeClosing=" + timeClosing +
-                ", contact=" + contact +
-                ", rating=" + rating +
-                ", reviews=" + reviews +
-                ", cuisineTypes=" + cuisineTypes +
-                ", placeCategories=" + placeCategories +
                 '}';
     }
 }

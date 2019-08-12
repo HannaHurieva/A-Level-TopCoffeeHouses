@@ -1,20 +1,15 @@
 package com.alevel.project.coffee.model;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-
-
 
 @Entity
 @Table(name = "reviews")
-public class Review implements Serializable {
+public class Review extends Auditable<String> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +28,9 @@ public class Review implements Serializable {
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 
-    @CreatedDate
+/*    @CreatedDate
     @Column(name = "created")
-    private Date created;
+    private Date creationDate;*/
 
 
   /*  @LastModifiedDate
@@ -88,13 +83,13 @@ public class Review implements Serializable {
         this.place = place;
     }
 
-    public Date getCreated() {
-        return created;
+/*    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -104,13 +99,12 @@ public class Review implements Serializable {
         return id == review.id &&
                 Objects.equals(text, review.text) &&
                 Objects.equals(author, review.author) &&
-                Objects.equals(place, review.place) &&
-                Objects.equals(created, review.created);
+                Objects.equals(place, review.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, author, place, created);
+        return Objects.hash(id, text, author, place);
     }
 
     @Override
@@ -120,7 +114,6 @@ public class Review implements Serializable {
                 ", text='" + text + '\'' +
                 ", author=" + author +
                 ", place=" + place +
-                ", created=" + created +
                 '}';
     }
 }

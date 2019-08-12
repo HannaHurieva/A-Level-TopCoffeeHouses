@@ -1,23 +1,30 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
 <#import "parts/login.ftl" as l>
 
 <@c.page>
-    <h5>...here will be your reviews :-)</h5>
+    <#--<#include "parts/reviewEdit.ftl">-->
 
-    <#include "parts/security.ftl">
     <div class="card-columns">
     <#list reviews as review>
-    <div class="card my-3">
-        <div class="m-2">
-            <span>${review.text}</span><br/>
+        <div class="card my-3">
+            <div class="m-2">
+                <span>${review.text}</span><br/>
+                <i>${review.creationDate}</i>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="/user/reviews/${review.author.id}">${review.authorName}</a>
+                <#if review.author.id == currentUserId>
+                <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">
+                Edit
+                </a>
+                </#if>
+            </div>
         </div>
-        <div class="card-footer text-muted">
-            <a href="/user/reviews">${review.authorName}</a>
+    <#else>
+        No review
+    </#list>
+    </div>
 
-                <#else>
-                    No review
-                </#list>
-        </div>
-
-        <div class="m-2"><a href="/user/profile">Profile</div>
+    <div><a href="/user/profile/${currentUserId}">Profile</div>
 </@c.page>

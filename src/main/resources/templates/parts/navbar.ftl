@@ -29,11 +29,11 @@
 
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/reviews">My Reviews</a>
+                    <a class="nav-link" href="/user/reviews/${currentUserId}">My Reviews</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/profile">Profile</a>
+                    <a class="nav-link" href="/user/profile/${currentUserId}">Profile</a>
                 </li>
             </#if>
         </ul>
