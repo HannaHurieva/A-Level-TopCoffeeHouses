@@ -40,7 +40,7 @@ public class UserAdministrationControllerTest {
         this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("/html/body/nav/div/ul/li[4]/a").string("User list"));
+                .andExpect(xpath("/html/body/nav/div/ul/li[4]/a").string("My Reviews"));
     }
 
     @Test

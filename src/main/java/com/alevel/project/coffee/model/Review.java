@@ -28,6 +28,7 @@ public class Review implements Serializable {
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 
+
     public Review() {
     }
 
@@ -72,6 +73,7 @@ public class Review implements Serializable {
         this.place = place;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,6 +89,7 @@ public class Review implements Serializable {
     public int hashCode() {
         return Objects.hash(id, text, author, place);
     }
+
 
     @Override
     public String toString() {
