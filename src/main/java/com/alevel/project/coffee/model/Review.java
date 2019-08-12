@@ -1,11 +1,16 @@
 package com.alevel.project.coffee.model;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+
+
 
 @Entity
 @Table(name = "reviews")
@@ -28,6 +33,15 @@ public class Review implements Serializable {
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 
+    @CreatedDate
+    @Column(name = "created")
+    private Date created;
+
+
+  /*  @LastModifiedDate
+    @Column(name = "updated")
+    private Date updated;*/
+
 
     public Review() {
     }
@@ -35,6 +49,7 @@ public class Review implements Serializable {
     public Review(String text, User author) {
         this.text = text;
         this.author = author;
+
     }
 
     public String getAuthorName() {
@@ -73,6 +88,13 @@ public class Review implements Serializable {
         this.place = place;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -82,14 +104,14 @@ public class Review implements Serializable {
         return id == review.id &&
                 Objects.equals(text, review.text) &&
                 Objects.equals(author, review.author) &&
-                Objects.equals(place, review.place);
+                Objects.equals(place, review.place) &&
+                Objects.equals(created, review.created);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, author, place);
+        return Objects.hash(id, text, author, place, created);
     }
-
 
     @Override
     public String toString() {
@@ -98,6 +120,8 @@ public class Review implements Serializable {
                 ", text='" + text + '\'' +
                 ", author=" + author +
                 ", place=" + place +
+                ", created=" + created +
                 '}';
     }
 }
+

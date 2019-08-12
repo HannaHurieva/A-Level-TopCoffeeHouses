@@ -31,7 +31,7 @@ public class LoginTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserReviewController userReviewController;
+    private UserReviewsController userReviewsController;
 
     @Test
     public void shouldReturnLoginPageTest() throws Exception {
