@@ -3,7 +3,7 @@ package com.alevel.project.coffee.controller;
 import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
-import com.alevel.project.coffee.repository.ReviewRepository;
+import com.alevel.project.coffee.repository.ReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,10 +22,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/places/reviews")
 public class ReviewController {
-    private ReviewRepository reviewRepository;
+    private ReviewRepo reviewRepository;
 
     @Autowired
-    public void setReviewRepository(ReviewRepository reviewRepository) {
+    public void setReviewRepository(ReviewRepo reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 

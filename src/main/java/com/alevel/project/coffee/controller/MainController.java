@@ -37,14 +37,14 @@ public class MainController {
     }
 
     @PostMapping("/location")
-    public String findByLocation(@RequestParam String location, Model model){
+    public String findByLocation(@RequestParam String location, Model model) {
         List<Place> placesByContact_Location = placeService.findByContact_Location(location);
         model.addAttribute("places", placesByContact_Location);
         return "places";
     }
 
     @PostMapping("/category")
-    public String findByCategory(@RequestParam String category, Model model){
+    public String findByCategory(@RequestParam String category, Model model) {
         List<Place> placesByPlaceCategory = placeService.findByPlaceCategory(category);
         model.addAttribute("places", placesByPlaceCategory);
         return "places";

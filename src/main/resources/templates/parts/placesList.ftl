@@ -1,5 +1,3 @@
-<#include "security.ftl">
-
 <div class="card-columns">
     <#list places as place>
         <div class="card my-3">
@@ -9,6 +7,9 @@
         </div>
         <div class="card-footer text-muted">
             <a href="/places/reviews/${place.id}">Reviews</a>
+        </div>
+        <div>
+            <a href="/place/reviews/${place.id}/add">Write a feedback</a>
         </div>
         </div>
     <#else>

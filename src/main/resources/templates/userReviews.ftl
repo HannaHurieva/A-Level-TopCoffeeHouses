@@ -1,9 +1,12 @@
 <#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
-<#import "parts/login.ftl" as l>
 
 <@c.page>
-    <#--<#include "parts/reviewEdit.ftl">-->
+    <div class="mb-1"> Reviews of ${name}</div>
+
+    <#if isCurrentUser>
+        <#include "parts/reviewEdit.ftl">
+    </#if>
 
     <div class="card-columns">
     <#list reviews as review>

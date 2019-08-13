@@ -1,17 +1,21 @@
-        <a class="btn btn-primary" data-toggle="collapse"
-           href="#collapseExample" role="button"
-           aria-expanded="false" aria-controls="collapseExample">
-           Review editor</a>
-        <div class="collapse <#if review??>show</#if>" id="collapseExample">
-        <div class="form-group mt-3">
-        <form method="post" enctype="multipart/form-data">
+<#--<#import "common.ftl" as c>
+
+<@c.page>
+<#if isCurrentUser>-->
+    <a class="btn btn-primary" data-toggle="collapse"
+       href="#collapseExample" role="button"
+       aria-expanded="false" aria-controls="collapseExample">
+        Review editor</a>
+    <div class="collapse <#if review??>show</#if>" id="collapseExample">
+    <div class="form-group mt-3">
+    <form method="post" enctype="multipart/form-data">
 
         <div class="form-group">
-            <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
+            <input type="text" class="form-control ${(textEmptyError??)?string('is-invalid', '')}"
             value="<#if review??>${review.text}</#if>" name="text" placeholder="Input the review" />
-                <#if textError??>
+                <#if textEmptyError??>
                     <div class="invalid-feedback">
-                    ${textError}
+                    ${textEmptyError}
                     </div>
                 </#if>
         </div>
@@ -21,6 +25,8 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save review</button>
         </div>
-        </form>
-        </div>
-        </div>
+    </form>
+    </div>
+    </div>
+<#--</#if>
+</@c.page>-->

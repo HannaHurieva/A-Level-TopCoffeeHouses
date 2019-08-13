@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -32,9 +31,8 @@ public class UserReviewsController {
                                  @PathVariable User user, Model model,
                                  @RequestParam(required = false) Review review) {
         List<Review> reviews = reviewService.findByAuthor(currentUser);
-        //Set<Review> reviews = currentUser.getReviews();
         model.addAttribute("reviews", reviews);
-        //model.addAttribute("review", review);
+        model.addAttribute("review", review);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userReviews";
     }
@@ -45,20 +43,28 @@ public class UserReviewsController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable Long user,
             @RequestParam("id") Review review,
-            @RequestParam("text") String text)
-            throws IOException {
+            @RequestParam("text") String text,
+            Model model) {
         if (review.getAuthor().equals(currentUser)) {
-            if (!StringUtils.isEmpty(text)) {
-                review.setText(text);
+            model.addAttribute("isCurrentUser", currentUser.getId() == user);
+            boolean isEmptyText = StringUtils.isEmpty(text);
+            if (isEmptyText) {
+                model.addAttribute("textEmptyError", "Message cannot be empty");
+                List<Review> reviews = reviewService.findByAuthor(currentUser);
+                model.addAttribute("reviews", reviews);
+                return "userReviews";
+            } else {
+                reviewService.update(review, text);
+                return "redirect:/user/reviews/" + user;
             }
-            reviewService.save(review);
         }
-        return "redirect:/user/reviews/" + user;
+        return "places";
     }
 
-    @GetMapping("{id)/delete")
+    @GetMapping("{user}/{id}")
     @Transactional
     public String deleteReview(@AuthenticationPrincipal User currentUser,
+                               @PathVariable Long user,
                                @PathVariable Long id,
                                @RequestParam("id") Review review,
                                RedirectAttributes redirectAttributes) {
@@ -66,7 +72,7 @@ public class UserReviewsController {
             reviewService.deleteById(id);
         }
         redirectAttributes.addAttribute("message", "Review was deleted");
-        return "redirect:/user/reviews/" + id;
+        return "redirect:/user/reviews/" + user;
     }
 
 }
