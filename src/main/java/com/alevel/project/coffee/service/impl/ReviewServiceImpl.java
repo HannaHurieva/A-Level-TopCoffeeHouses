@@ -8,6 +8,7 @@ import com.alevel.project.coffee.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("reviewService")
@@ -46,6 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void update(Review review, String text) {
         if (!(review.getText().equals(text))) {
             review.setText(text);
+            review.setLastModifiedDate(new Date());
         }
         reviewRepo.save(review);
     }

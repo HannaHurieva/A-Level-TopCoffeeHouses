@@ -32,20 +32,21 @@ public class UserProfileController {
     @PostMapping("{user}")
     public String updateProfile(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable Long user,
+            @PathVariable(name = "user") Long userId,
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam String email,
             @RequestParam String password,
             Model model) {
 
-        boolean isEmailEmpty = StringUtils.isEmpty(email);
-        if (isEmailEmpty) {
-            model.addAttribute("emailEmptyError", "Email cannot be empty");
-            return "profile";
-        } else {
-            userService.updateUserProfile(currentUser, firstName, lastName, email, password);
-            return "redirect:/user/reviews/" + user;
+        if (currentUser.getId() == userId) {
+            boolean isEmailEmpty = StringUtils.isEmpty(email);
+            if (isEmailEmpty) {
+                model.addAttribute("emailEmptyError", "Email cannot be empty");
+            } else {
+                userService.updateUserProfile(currentUser, firstName, lastName, email, password);
+            }
         }
+        return "profile";
     }
 }

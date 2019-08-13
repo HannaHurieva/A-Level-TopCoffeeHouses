@@ -1,7 +1,3 @@
-<#--<#import "common.ftl" as c>
-
-<@c.page>
-<#if isCurrentUser>-->
     <a class="btn btn-primary" data-toggle="collapse"
        href="#collapseExample" role="button"
        aria-expanded="false" aria-controls="collapseExample">
@@ -28,5 +24,3 @@
     </form>
     </div>
     </div>
-<#--</#if>
-</@c.page>-->

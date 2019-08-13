@@ -2,7 +2,6 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-    <div class="mb-1"> Reviews of ${name}</div>
 
     <#if isCurrentUser>
         <#include "parts/reviewEdit.ftl">
@@ -13,14 +12,14 @@
         <div class="card my-3">
             <div class="m-2">
                 <span>${review.text}</span><br/>
-                <i>${review.creationDate}</i>
+                <i>${review.lastModifiedDate}</i>
             </div>
             <div class="card-footer text-muted">
-                <a href="/user/reviews/${review.author.id}">${review.authorName}</a>
+                ${review.authorName}
                 <#if review.author.id == currentUserId>
-                <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">
-                Edit
-                </a>
+                    <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">
+                    Edit
+                    </a>
                 </#if>
             </div>
         </div>
@@ -29,5 +28,7 @@
     </#list>
     </div>
 
-    <div><a href="/user/profile/${currentUserId}">Profile</div>
+    <#if isCurrentUser>
+        <div><a href="/user/profile/${currentUserId}">Profile</div>
+    </#if>
 </@c.page>

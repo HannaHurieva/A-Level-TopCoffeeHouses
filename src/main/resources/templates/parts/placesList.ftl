@@ -8,7 +8,7 @@
         <div class="card-footer text-muted">
             <a href="/places/reviews/${place.id}">Reviews</a>
         </div>
-        <div>
+        <div class="card-footer text-muted">
             <a href="/place/reviews/${place.id}/add">Write a feedback</a>
         </div>
         </div>

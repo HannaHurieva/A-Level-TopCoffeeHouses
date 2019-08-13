@@ -6,7 +6,7 @@
         <div class="card my-3">
             <div class="m-2">
                 <span>${review.text}</span><br/>
-                <i>${review.creationDate}</i>
+                <i>${review.lastModifiedDate}</i>
             </div>
             <div class="card-footer text-muted">
                 <a href="/user/reviews/${review.author.id}">${review.authorName}</a>

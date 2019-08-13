@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -59,12 +60,14 @@ public class PlaceAdministrationController {
             return "createPlace";
         }
         placeService.createNewPlace(place, contact, form);
+        List<Place> places = placeService.findAll();
+        model.addAttribute("places", places);
         return "places";
     }
 
     private boolean isValidationHasErrors(@ModelAttribute("place") @Valid Place place, BindingResult bindingResultPlace,
                                           @ModelAttribute("contact") @Valid Contact contact, BindingResult bindingResultContact,
-                                          Model model){
+                                          Model model) {
         if (bindingResultPlace.hasErrors()) {
             Map<String, String> errorsPlace = ControllerUtils.getErrors(bindingResultPlace);
             model.mergeAttributes(errorsPlace);

@@ -30,10 +30,10 @@ public class UserReviewsController {
     public String getUserReviews(@AuthenticationPrincipal User currentUser,
                                  @PathVariable User user, Model model,
                                  @RequestParam(required = false) Review review) {
-        List<Review> reviews = reviewService.findByAuthor(currentUser);
+        List<Review> reviews = reviewService.findByAuthor(user);
         model.addAttribute("reviews", reviews);
         model.addAttribute("review", review);
-        model.addAttribute("isCurrentUser", currentUser.equals(user));
+        model.addAttribute("isCurrentUser", currentUser.getId() == user.getId());
         return "userReviews";
     }
 
@@ -41,24 +41,19 @@ public class UserReviewsController {
     @Transactional
     public String updateReview(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable Long user,
+            @PathVariable(name = "user") Long userId,
             @RequestParam("id") Review review,
             @RequestParam("text") String text,
             Model model) {
+
         if (review.getAuthor().equals(currentUser)) {
-            model.addAttribute("isCurrentUser", currentUser.getId() == user);
+            model.addAttribute("isCurrentUser", currentUser.getId() == userId);
             boolean isEmptyText = StringUtils.isEmpty(text);
-            if (isEmptyText) {
-                model.addAttribute("textEmptyError", "Message cannot be empty");
-                List<Review> reviews = reviewService.findByAuthor(currentUser);
-                model.addAttribute("reviews", reviews);
-                return "userReviews";
-            } else {
+            if (!isEmptyText) {
                 reviewService.update(review, text);
-                return "redirect:/user/reviews/" + user;
             }
         }
-        return "places";
+        return "redirect:/user/reviews/" + userId;
     }
 
     @GetMapping("{user}/{id}")
