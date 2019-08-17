@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -36,29 +35,27 @@ public class ReviewController {
         return "reviews";
     }
 
-    @PostMapping("{place}")
-    public String addReview(
-            @AuthenticationPrincipal User user,
-            @PathVariable Place place,
-            @Valid Review review,
-            BindingResult bindingResult,
-            Model model
+    @GetMapping("{place}/create")
+    public String getFormReview(@PathVariable Place place, Model model) {
+        model.addAttribute("place", place);
+        return "create_Review";
+    }
 
-    ) throws IOException {
-        review.setAuthor(user);
-
+    @PostMapping("{place}/create")
+    public String createNewReview(
+            @AuthenticationPrincipal User user, @PathVariable Place place,
+            @Valid Review review, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
-            model.addAttribute("review", review);
+            return "create_Review";
         } else {
-            model.addAttribute("review", null);
+            review.setAuthor(user);
+            review.setPlace(place);
             reviewRepository.save(review);
         }
-
-        List<Review> reviewsByPlace = reviewRepository.findByPlace(place);
-        model.addAttribute("reviews", reviewsByPlace);
-        return "reviews";
+        return getReviewsByPlace(place, model);
     }
 
 }

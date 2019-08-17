@@ -15,12 +15,21 @@
                 <i>${review.lastModifiedDate}</i>
             </div>
             <div class="card-footer text-muted">
-                ${review.authorName}
-                <#if review.author.id == currentUserId>
-                    <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">
-                    Edit
-                    </a>
-                </#if>
+                <div class="form-group row">${review.authorName}
+                    <#if review.author.id == currentUserId>
+                        <div class="col-sm-2">
+                            <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">
+                            Edit
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <form action="/user/reviews/${review.author.id}/delete/${review.id}" method="post">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <input class="btn btn-primary" type="submit" value="Delete"/>
+                            </form>
+                        </div>
+                    </#if>
+                </div>
             </div>
         </div>
     <#else>

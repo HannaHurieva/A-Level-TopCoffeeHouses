@@ -4,6 +4,7 @@ import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
 import com.alevel.project.coffee.repository.ReviewRepo;
+import com.alevel.project.coffee.service.ReviewNotFoundException;
 import com.alevel.project.coffee.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void deleteById(long id) {
-        reviewRepo.deleteById(id);
+        Review review = reviewRepo.findById(id).orElseThrow(() -> new ReviewNotFoundException(id));
+        reviewRepo.deleteById(review.getId());
     }
 }

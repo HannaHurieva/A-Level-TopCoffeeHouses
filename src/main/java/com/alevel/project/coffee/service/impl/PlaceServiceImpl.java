@@ -49,20 +49,10 @@ public class PlaceServiceImpl implements PlaceService {
 
         for (String key : form.keySet()) {
             Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
-            if (cuisineTypeFromDB.isPresent()) {
-                CuisineType cuisineTypeOfPlace = new CuisineType();
-                cuisineTypeOfPlace.setId(cuisineTypeFromDB.get().getId());
-                cuisineTypeOfPlace.setCuisineType(key);
-                cuisineTypes.add(cuisineTypeOfPlace);
-            }
+            cuisineTypeFromDB.ifPresent(cuisineTypes::add);
 
             Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
-            if (placeCategoryFromDB.isPresent()) {
-                PlaceCategory placeCategory = new PlaceCategory();
-                placeCategory.setId(placeCategoryFromDB.get().getId());
-                placeCategory.setPlaceCategory(key);
-                placeCategories.add(placeCategory);
-            }
+            placeCategoryFromDB.ifPresent(placeCategories::add);
         }
         place.setCuisineTypes(cuisineTypes);
         place.setPlaceCategories(placeCategories);
@@ -101,16 +91,6 @@ public class PlaceServiceImpl implements PlaceService {
     public boolean isTitleExist(Place place) {
         Place placeFromDb = placeRepo.findByTitle(place.getTitle());
         return placeFromDb != null;
-    }
-
-    @Override
-    public void updatePlace(Place place,
-                            String title, String description,
-                            int timeOpening, int timeClosing,
-                            Contact contact,
-                            String address, String location, String phone, String website,
-                            Map<String, String> form) {
-        //TODO
     }
 
     @Override

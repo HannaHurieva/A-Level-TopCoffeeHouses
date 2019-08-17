@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -46,8 +45,8 @@ public class UserReviewsController {
             @RequestParam("text") String text,
             Model model) {
 
-        if (review.getAuthor().equals(currentUser)) {
-            model.addAttribute("isCurrentUser", currentUser.getId() == userId);
+        if (currentUser.getId() == review.getAuthor().getId()) {
+            model.addAttribute("isCurrentUser", "true");
             boolean isEmptyText = StringUtils.isEmpty(text);
             if (!isEmptyText) {
                 reviewService.update(review, text);
@@ -56,18 +55,24 @@ public class UserReviewsController {
         return "redirect:/user/reviews/" + userId;
     }
 
-    @GetMapping("{user}/{id}")
+    @GetMapping("{user}/delete")
+    @Transactional
+    public String resultDeletingReview(@PathVariable(name = "user") Long userId, Long id, Model model) {
+        model.addAttribute("message", "Review with id = " + id + " was successful deleted");
+        return "requestOk";
+    }
+
+    @PostMapping("{user}/delete/{id}")
     @Transactional
     public String deleteReview(@AuthenticationPrincipal User currentUser,
-                               @PathVariable Long user,
-                               @PathVariable Long id,
-                               @RequestParam("id") Review review,
-                               RedirectAttributes redirectAttributes) {
-        if (review.getAuthor().equals(currentUser)) {
-            reviewService.deleteById(id);
+                               @PathVariable(name = "user") Long userId,
+                               @PathVariable(name = "id") Review review,
+                               Model model) {
+        if (currentUser.getId() == userId) {
+            reviewService.deleteById(review.getId());
+            return resultDeletingReview(userId, review.getId(), model);
         }
-        redirectAttributes.addAttribute("message", "Review was deleted");
-        return "redirect:/user/reviews/" + user;
+        return "redirect:/user/reviews/" + currentUser.getId();
     }
 
 }

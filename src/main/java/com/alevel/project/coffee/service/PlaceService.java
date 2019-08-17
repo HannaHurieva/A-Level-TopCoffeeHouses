@@ -22,13 +22,6 @@ public interface PlaceService {
 
     boolean isTitleExist(Place place);
 
-    void updatePlace(Place place,
-                     String title, String description,
-                     int timeOpening, int timeClosing,
-                     Contact contact,
-                     String address, String location, String phone, String website,
-                     Map<String, String> form);
-
     void deletePlace(Place place);
 
 }

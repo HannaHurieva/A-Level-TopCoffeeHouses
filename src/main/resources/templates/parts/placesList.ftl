@@ -9,7 +9,7 @@
             <a href="/places/reviews/${place.id}">Reviews</a>
         </div>
         <div class="card-footer text-muted">
-            <a href="/place/reviews/${place.id}/add">Write a feedback</a>
+            <a href="/places/reviews/${place.id}/create">Write a feedback</a>
         </div>
         </div>
     <#else>

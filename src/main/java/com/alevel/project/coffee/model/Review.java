@@ -16,6 +16,7 @@ public class Review extends Auditable<String> implements Serializable {
     @Column(name = "review_id", unique = true, nullable = false)
     private long id;
 
+    @Column(name = "text")
     @NotBlank(message = "Please write your review")
     @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
@@ -27,16 +28,6 @@ public class Review extends Auditable<String> implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
-
-/*    @CreatedDate
-    @Column(name = "created")
-    private Date creationDate;*/
-
-
-  /*  @LastModifiedDate
-    @Column(name = "updated")
-    private Date updated;*/
-
 
     public Review() {
     }
@@ -82,14 +73,6 @@ public class Review extends Auditable<String> implements Serializable {
     public void setPlace(Place place) {
         this.place = place;
     }
-
-/*    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }*/
 
     @Override
     public boolean equals(Object o) {
