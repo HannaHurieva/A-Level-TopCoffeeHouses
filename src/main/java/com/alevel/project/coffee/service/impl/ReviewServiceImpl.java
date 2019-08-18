@@ -35,6 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Review findById(Long id) {
+        return reviewRepo.findById(id)
+                .orElseThrow(() -> new ReviewNotFoundException(id));
+    }
+
+    @Override
     public List<Review> findByAuthor(User author) {
         return reviewRepo.findByAuthor(author);
     }
@@ -55,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void deleteReview(Review review) {
-        Review reviewIsExist = reviewRepo.findById(review.getId()).orElseThrow(() -> new ReviewNotFoundException(review));
-        reviewRepo.delete(reviewIsExist);
+        Review reviewById = findById(review.getId());
+        reviewRepo.delete(reviewById);
     }
 }

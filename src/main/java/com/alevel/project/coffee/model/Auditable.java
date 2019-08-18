@@ -20,7 +20,7 @@ public class Auditable<U> {
 
     @LastModifiedDate
     @Column(name = "updated")
-    private  Date lastModifiedDate;
+    private Date lastModifiedDate;
 
     public String getCreationDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y");
@@ -28,7 +28,7 @@ public class Auditable<U> {
     }
 
     public void setCreationDate(Date creationDate) {
-        this.creationDate =  creationDate;
+        this.creationDate = creationDate;
     }
 
     public String getLastModifiedDate() {

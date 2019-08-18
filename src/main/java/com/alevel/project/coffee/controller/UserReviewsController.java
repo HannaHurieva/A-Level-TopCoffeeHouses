@@ -58,7 +58,7 @@ public class UserReviewsController {
     @GetMapping("{user}/delete")
     @Transactional
     public String resultDeletingReview(@PathVariable(name = "user") Long userId, Long id, Model model) {
-        model.addAttribute("message", "Review with id = " + id + " was successful deleted");
+        model.addAttribute("message", "The review with id = " + id + " was successful deleted");
         return "requestOk";
     }
 

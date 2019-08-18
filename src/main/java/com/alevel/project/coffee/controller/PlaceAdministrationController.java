@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -44,7 +43,7 @@ public class PlaceAdministrationController {
     public String createForm(Model model) {
         model.addAttribute("cuisineTypes", cuisineTypeService.findAll());
         model.addAttribute("placeCategories", placeCategoryService.findAll());
-        return "createPlace";
+        return "placeCreate";
     }
 
     @PostMapping("/create")
@@ -55,14 +54,10 @@ public class PlaceAdministrationController {
                                  Model model) {
 
         if (isValidationHasErrors(place, bindingResultPlace, contact, bindingResultContact, model)) {
-            model.addAttribute("cuisineTypes", cuisineTypeService.findAll());
-            model.addAttribute("placeCategories", placeCategoryService.findAll());
-            return "createPlace";
+            return createForm(model);
         }
         placeService.createNewPlace(place, contact, form);
-        List<Place> places = placeService.findAll();
-        model.addAttribute("places", places);
-        return "places";
+        return "redirect:/places";
     }
 
     private boolean isValidationHasErrors(@ModelAttribute("place") @Valid Place place, BindingResult bindingResultPlace,
@@ -83,5 +78,20 @@ public class PlaceAdministrationController {
             return true;
         }
         return false;
+    }
+
+    @GetMapping("/delete")
+    @Transactional
+    public String resultDeletingPlace(Long id, Model model) {
+        model.addAttribute("message", "The Place with id = " + id + " was successful deleted");
+        return "requestOk";
+    }
+
+    @PostMapping("/delete/{place}")
+    @Transactional
+    public String deletePlace(@PathVariable(name = "place") Place place,
+                              Model model) {
+        placeService.deletePlace(place);
+        return resultDeletingPlace(place.getId(), model);
     }
 }

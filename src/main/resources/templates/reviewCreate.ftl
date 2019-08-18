@@ -9,14 +9,14 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Message :</label>
         <div class="col-sm-6">
-            <input type="text" name="text" value="<#if review??>${review.text}</#if>"
+            <textarea name="text"
                    class="form-control ${(textError??)?string('is-invalid', '')}"
-                   placeholder="Input the text" />
+                   placeholder="Input the text" rows="3"></textarea>
             <#if textError??>
-            <div class="invalid-feedback">
+                <div class="invalid-feedback">
                 ${textError}
-            </div>
-        </#if>
+                </div>
+            </#if>
     </div>
     </div>
 

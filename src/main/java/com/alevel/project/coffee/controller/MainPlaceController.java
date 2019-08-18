@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/places")
@@ -28,15 +27,10 @@ public class MainPlaceController {
     }
 
     @GetMapping("{place}")
-    public String getPlacesByTitle(@PathVariable(name="place") Place place, Model model) {
-        Optional<Place> placeByTitle = placeService.findByTitle(place.getTitle());
-        if(placeByTitle.isPresent()) {
-            model.addAttribute("place", placeByTitle.get());
-            return "placeDetailed";
-        } else {
-            model.addAttribute("message", "Place with id = " + place.getId() + "was not found");
-            return "requestError";
-        }
+    public String getPlacesByTitle(@PathVariable(name = "place") Place place, Model model) {
+        Place placeByTitle = placeService.findByTitle(place.getTitle());
+        model.addAttribute("place", placeByTitle);
+        return "placeDetailed";
     }
 
     @PostMapping("/cuisine")

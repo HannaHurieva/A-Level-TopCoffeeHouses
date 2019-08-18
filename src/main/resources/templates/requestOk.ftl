@@ -4,5 +4,9 @@
 <@c.page>
     <h5>${message!''}</h5>
 
-    <a href="/user/reviews/${currentUserId}">My reviews</a>
+    <#if isAdmin>
+        <a href="/places">List of places</a>
+    <#else>
+        <a href="/user/reviews/${currentUserId}">My reviews</a>
+    </#if>
 </@c.page>

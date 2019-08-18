@@ -3,7 +3,7 @@ package com.alevel.project.coffee.controller;
 import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
-import com.alevel.project.coffee.repository.ReviewRepo;
+import com.alevel.project.coffee.service.impl.ReviewServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,16 +21,16 @@ import java.util.Map;
 @Controller
 @RequestMapping("/places/reviews")
 public class PlaceReviewsController {
-    private ReviewRepo reviewRepository;
+    private ReviewServiceImpl reviewService;
 
     @Autowired
-    public void setReviewRepository(ReviewRepo reviewRepository) {
-        this.reviewRepository = reviewRepository;
+    public void setReviewRepo(ReviewServiceImpl reviewService) {
+        this.reviewService = reviewService;
     }
 
     @GetMapping("{place}")
     public String getReviewsByPlace(@PathVariable Place place, Model model) {
-        List<Review> reviewsByPlace = reviewRepository.findByPlace(place);
+        List<Review> reviewsByPlace = reviewService.findByPlace(place);
         model.addAttribute("reviews", reviewsByPlace);
         model.addAttribute("place", place);
         return "reviews";
@@ -38,7 +38,7 @@ public class PlaceReviewsController {
 
     @GetMapping("{place}/create")
     public String getFormReview(@PathVariable Place place) {
-        return "create_Review";
+        return "reviewCreate";
     }
 
     @PostMapping("{place}/create")
@@ -46,15 +46,13 @@ public class PlaceReviewsController {
             @AuthenticationPrincipal User user, @PathVariable Place place,
             @Valid Review review, BindingResult bindingResult,
             Model model) {
+
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
-            return "create_Review";
-        } else {
-            review.setAuthor(user);
-            review.setPlace(place);
-            reviewRepository.save(review);
+            return "reviewCreate";
         }
+        reviewService.createNewReview(place, review, user);
         return getReviewsByPlace(place, model);
     }
 

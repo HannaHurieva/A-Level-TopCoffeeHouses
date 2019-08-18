@@ -8,6 +8,7 @@ import com.alevel.project.coffee.repository.ContactRepo;
 import com.alevel.project.coffee.repository.CuisineTypeRepo;
 import com.alevel.project.coffee.repository.PlaceCategoryRepo;
 import com.alevel.project.coffee.repository.PlaceRepo;
+import com.alevel.project.coffee.service.PlaceNotFoundException;
 import com.alevel.project.coffee.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,8 +69,14 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Optional<Place> findByTitle(String title) {
-        return Optional.ofNullable(placeRepo.findByTitle(title));
+    public Place findById(Long id) {
+        return placeRepo.findById(id)
+                .orElseThrow(() -> new PlaceNotFoundException(id));
+    }
+
+    @Override
+    public Place findByTitle(String title) {
+        return placeRepo.findByTitle(title);
     }
 
     @Override
@@ -89,12 +96,13 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public boolean isTitleExist(Place place) {
-        Place placeFromDb = placeRepo.findByTitle(place.getTitle());
+        Place placeFromDb = findByTitle(place.getTitle());
         return placeFromDb != null;
     }
 
     @Override
     public void deletePlace(Place place) {
-        placeRepo.deleteById(place.getId());
+        Place placeById = findById(place.getId());
+        placeRepo.delete(placeById);
     }
 }

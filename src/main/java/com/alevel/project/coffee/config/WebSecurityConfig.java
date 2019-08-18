@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/places",
-                        "/places/reviews/{place}",
+                        "/places/{place}", "/places/reviews/{place}",
                         "/registration", "/static/**")
                 .permitAll()
 

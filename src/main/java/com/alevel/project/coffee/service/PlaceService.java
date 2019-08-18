@@ -5,14 +5,15 @@ import com.alevel.project.coffee.model.Place;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface PlaceService {
     void createNewPlace(Place place, Contact contact, Map<String, String> form);
 
     List<Place> findAll();
 
-    Optional<Place> findByTitle(String title);
+    Place findById(Long id);
+
+    Place findByTitle(String title);
 
     List<Place> findByContact_Location(String location);
 

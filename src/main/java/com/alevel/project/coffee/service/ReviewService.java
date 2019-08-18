@@ -11,6 +11,8 @@ public interface ReviewService {
 
     List<Review> findAll();
 
+    Review findById(Long id);
+
     List<Review> findByAuthor(User author);
 
     List<Review> findByPlace(Place place);
