@@ -1,4 +1,4 @@
-INSERT INTO db_coffee_in.cuisine_types (cuisine_type_id, cuisine_type)
+INSERT INTO cuisine_types (cuisine_type_id, cuisine_type)
     VALUES (1, 'American'),
            (2, 'Argentinean'),
            (3, 'Armenian'),

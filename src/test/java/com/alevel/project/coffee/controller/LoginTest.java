@@ -52,7 +52,7 @@ public class LoginTest {
     @Test
     @WithUserDetails(value = "User1")
     public void navbarShouldContainsSignOutIfLoginSuccessfullyTest() throws Exception {
-        this.mockMvc.perform(get("/user/reviews"))
+        this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(authenticated())
                 .andExpect(xpath("/html/body/nav/div/form/button")

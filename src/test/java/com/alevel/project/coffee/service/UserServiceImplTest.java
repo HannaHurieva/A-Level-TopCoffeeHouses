@@ -28,7 +28,7 @@ public class UserServiceImplTest {
     private static final User user = new User();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         user.setUsername("User1");
         user.setFirstName("firstName");
         user.setLastName("lastName");
