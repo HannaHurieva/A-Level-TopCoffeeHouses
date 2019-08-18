@@ -5,16 +5,14 @@ import com.alevel.project.coffee.service.impl.PlaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/places")
-public class MainController {
+public class MainPlaceController {
     private PlaceServiceImpl placeService;
 
     @Autowired
@@ -27,6 +25,18 @@ public class MainController {
         List<Place> places = placeService.findAll();
         model.addAttribute("places", places);
         return "places";
+    }
+
+    @GetMapping("{place}")
+    public String getPlacesByTitle(@PathVariable(name="place") Place place, Model model) {
+        Optional<Place> placeByTitle = placeService.findByTitle(place.getTitle());
+        if(placeByTitle.isPresent()) {
+            model.addAttribute("place", placeByTitle.get());
+            return "placeDetailed";
+        } else {
+            model.addAttribute("message", "Place with id = " + place.getId() + "was not found");
+            return "requestError";
+        }
     }
 
     @PostMapping("/cuisine")

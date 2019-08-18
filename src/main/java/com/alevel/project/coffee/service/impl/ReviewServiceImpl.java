@@ -54,8 +54,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteById(long id) {
-        Review review = reviewRepo.findById(id).orElseThrow(() -> new ReviewNotFoundException(id));
-        reviewRepo.deleteById(review.getId());
+    public void deleteReview(Review review) {
+        Review reviewIsExist = reviewRepo.findById(review.getId()).orElseThrow(() -> new ReviewNotFoundException(review));
+        reviewRepo.delete(reviewIsExist);
     }
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/places/reviews")
-public class ReviewController {
+public class PlaceReviewsController {
     private ReviewRepo reviewRepository;
 
     @Autowired
@@ -32,12 +32,12 @@ public class ReviewController {
     public String getReviewsByPlace(@PathVariable Place place, Model model) {
         List<Review> reviewsByPlace = reviewRepository.findByPlace(place);
         model.addAttribute("reviews", reviewsByPlace);
+        model.addAttribute("place", place);
         return "reviews";
     }
 
     @GetMapping("{place}/create")
-    public String getFormReview(@PathVariable Place place, Model model) {
-        model.addAttribute("place", place);
+    public String getFormReview(@PathVariable Place place) {
         return "create_Review";
     }
 

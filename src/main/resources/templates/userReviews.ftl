@@ -15,7 +15,13 @@
                 <i>${review.lastModifiedDate}</i>
             </div>
             <div class="card-footer text-muted">
-                <div class="form-group row">${review.authorName}
+                <a href="/places/${review.place.id}">
+                ${review.place.title!''}
+                </a>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="form-group row">
+                    ${review.authorName}
                     <#if review.author.id == currentUserId>
                         <div class="col-sm-2">
                             <a class="btn btn-primary" href="/user/reviews/${review.author.id}?review=${review.id}">

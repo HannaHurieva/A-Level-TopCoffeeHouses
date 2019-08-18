@@ -1,6 +1,12 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
+    <div class="mb-1">
+    <a href="/places/${place.id}">
+    ${place.title!''}
+    </a>
+    </div>
+
     <div class="card-columns">
     <#list reviews as review>
         <div class="card my-3">

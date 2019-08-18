@@ -21,11 +21,11 @@ public class Review extends Auditable<String> implements Serializable {
     @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", referencedColumnName = "user_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
 

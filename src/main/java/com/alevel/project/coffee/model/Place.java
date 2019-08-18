@@ -43,7 +43,7 @@ public class Place implements Serializable {
     private Rating rating;
 
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<Review> reviews;
 
     @ManyToMany

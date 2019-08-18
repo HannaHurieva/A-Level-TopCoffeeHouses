@@ -69,7 +69,7 @@ public class UserReviewsController {
                                @PathVariable(name = "id") Review review,
                                Model model) {
         if (currentUser.getId() == userId) {
-            reviewService.deleteById(review.getId());
+            reviewService.deleteReview(review);
             return resultDeletingReview(userId, review.getId(), model);
         }
         return "redirect:/user/reviews/" + currentUser.getId();

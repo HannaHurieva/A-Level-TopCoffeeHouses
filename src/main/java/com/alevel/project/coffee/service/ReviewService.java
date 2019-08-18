@@ -17,6 +17,6 @@ public interface ReviewService {
 
     void update(Review review, String text);
 
-    void deleteById(long id);
+    void deleteReview(Review review);
 
 }
