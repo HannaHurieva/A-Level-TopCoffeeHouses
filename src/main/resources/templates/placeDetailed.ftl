@@ -29,7 +29,7 @@
                         ${place.contact.address}
                         <div>${place.contact.location!''}</div>
                         <div><i>${place.contact.phone!''}</i></div>
-                        <div><a href="http://${place.contact.website!''}">${place.contact.website}</a></div>
+                        <div><a href="${place.contact.website!''}">${place.contact.website}</a></div>
                     </div>
 
             <div class="card-footer text-muted">
