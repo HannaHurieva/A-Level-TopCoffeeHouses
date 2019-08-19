@@ -3,5 +3,10 @@
 
 <@c.page>
     <h5>Welcome to CoffeeIN!</h5>
+    <div class="card-columns">
+        <#include "parts/filterByCuisine.ftl">
+        <#include "parts/filterByPlaceCategory.ftl">
+    </div>
+
     <#include "parts/placesList.ftl">
 </@c.page>

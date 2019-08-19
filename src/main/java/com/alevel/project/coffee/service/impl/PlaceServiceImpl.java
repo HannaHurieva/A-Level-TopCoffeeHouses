@@ -87,18 +87,22 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public List<Place> findByContact_Location(String location) {
-        return placeRepo.findByContact_Location(location);
+    public List<Place> findByContactLocation(String location) {
+        return placeRepo.findByContactLocation(location);
     }
 
     @Override
-    public List<Place> findByCuisineType(String cuisineType) {
-        return placeRepo.findByCuisineTypes(cuisineType);
+    public List<Place> findByCuisineType(String cuisine) {
+        if (cuisine != null && !cuisine.isEmpty()) {
+            return placeRepo.findBy_CuisineType(cuisine);
+        } else return placeRepo.findAll();
     }
 
     @Override
     public List<Place> findByPlaceCategory(String placeCategory) {
-        return placeRepo.findByPlaceCategories(placeCategory);
+        if (placeCategory != null && !placeCategory.isEmpty()) {
+            return placeRepo.findBy_PlaceCategory(placeCategory);}
+        else return placeRepo.findAll();
     }
 
     @Override

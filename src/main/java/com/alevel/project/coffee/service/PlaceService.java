@@ -15,7 +15,7 @@ public interface PlaceService {
 
     Place findByTitle(String title);
 
-    List<Place> findByContact_Location(String location);
+    List<Place> findByContactLocation(String location);
 
     List<Place> findByCuisineType(String cuisineType);
 

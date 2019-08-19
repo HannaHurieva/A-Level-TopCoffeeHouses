@@ -33,25 +33,27 @@ public class MainPlaceController {
         return "placeDetailed";
     }
 
-    @PostMapping("/cuisine")
-    public String findByCuisineType(@RequestParam String cuisineType, Model model) {
-        List<Place> placesByCuisineType = placeService.findByCuisineType(cuisineType);
-        model.addAttribute("places", placesByCuisineType);
+    @GetMapping("/cuisine")
+    public String getListPlacesByFilter(List<Place> places, Model model) {
+        model.addAttribute("places", places);
         return "places";
     }
 
-    @PostMapping("/location")
-    public String findByLocation(@RequestParam String location, Model model) {
-        List<Place> placesByContact_Location = placeService.findByContact_Location(location);
-        model.addAttribute("places", placesByContact_Location);
-        return "places";
+    @PostMapping("/cuisine")
+    public String findByCuisineType(@RequestParam(name = "cuisineFilter") String cuisine, Model model) {
+        List<Place> placesList = placeService.findByCuisineType(cuisine);
+        return getListPlacesByFilter(placesList, model);
     }
 
     @PostMapping("/category")
-    public String findByCategory(@RequestParam String category, Model model) {
-        List<Place> placesByPlaceCategory = placeService.findByPlaceCategory(category);
-        model.addAttribute("places", placesByPlaceCategory);
-        return "places";
+    public String findByCategory(@RequestParam(name = "categoryFilter") String category, Model model) {
+        List<Place> placesList = placeService.findByPlaceCategory(category);
+        return getListPlacesByFilter(placesList, model);
     }
 
+    @PostMapping("/location")
+    public String findByLocation(@RequestParam(name = "locationFilter") String location, Model model) {
+        List<Place> placesList = placeService.findByContactLocation(location);
+        return getListPlacesByFilter(placesList, model);
+    }
 }
