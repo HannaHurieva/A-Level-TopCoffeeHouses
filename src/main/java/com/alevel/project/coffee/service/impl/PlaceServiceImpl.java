@@ -45,22 +45,29 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void createNewPlace(Place place, Contact contact, Map<String, String> form) {
-        Set<CuisineType> cuisineTypes = new HashSet<>();
-        Set<PlaceCategory> placeCategories = new HashSet<>();
-
-        for (String key : form.keySet()) {
-            Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
-            cuisineTypeFromDB.ifPresent(cuisineTypes::add);
-
-            Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
-            placeCategoryFromDB.ifPresent(placeCategories::add);
-        }
-        place.setCuisineTypes(cuisineTypes);
-        place.setPlaceCategories(placeCategories);
-
+        place.setCuisineTypes(getSetCuisineTypes(form));
+        place.setPlaceCategories(getSetPlaceCategories(form));
         placeRepo.saveAndFlush(place);
         contact.setPlace(place);
         contactRepo.save(contact);
+    }
+
+    private Set<CuisineType> getSetCuisineTypes(Map<String, String> form) {
+        Set<CuisineType> cuisineTypes = new HashSet<>();
+        for (String key : form.keySet()) {
+            Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
+            cuisineTypeFromDB.ifPresent(cuisineTypes::add);
+        }
+        return cuisineTypes;
+    }
+
+    private Set<PlaceCategory> getSetPlaceCategories(Map<String, String> form) {
+        Set<PlaceCategory> placeCategories = new HashSet<>();
+        for (String key : form.keySet()) {
+            Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
+            placeCategoryFromDB.ifPresent(placeCategories::add);
+        }
+        return placeCategories;
     }
 
     @Override

@@ -46,7 +46,6 @@ public class PlaceServiceImplTest {
         place.setTimeClosing(23);
 
         contact.setAddress("Kharkov");
-
         form.put("Ukrainian", "16");
         form.put("Coffee house", "6");
     }
