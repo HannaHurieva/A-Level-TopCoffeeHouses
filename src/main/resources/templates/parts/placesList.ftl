@@ -23,6 +23,6 @@
         </div>
         </div>
     <#else>
-        No message
+        No places
     </#list>
 </div>

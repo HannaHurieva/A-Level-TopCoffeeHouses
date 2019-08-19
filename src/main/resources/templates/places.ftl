@@ -6,6 +6,7 @@
     <div class="card-columns">
         <#include "parts/filterByCuisine.ftl">
         <#include "parts/filterByPlaceCategory.ftl">
+        <#include "parts/filterByLocation.ftl">
     </div>
 
     <#include "parts/placesList.ftl">

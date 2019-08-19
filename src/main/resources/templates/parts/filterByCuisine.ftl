@@ -25,7 +25,8 @@
                         <option value="Vietnamese">Vietnamese</option>
                     </select>
                 <input type="hidden" value="${_csrf.token}" name="_csrf" />
-                <input type="submit" value="Find"/>
+                <button type="submit">Find</button>
+                <#--<input type="submit" value="Find"/>-->
             </div>
         </form>
 </div>
