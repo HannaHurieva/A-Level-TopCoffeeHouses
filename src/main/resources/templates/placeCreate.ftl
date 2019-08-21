@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-    <div class="mb-1" xmlns="http://www.w3.org/1999/html">Create new place</div>
+    <div class="mb-1">Create new place</div>
 
     <form action="/places/create" method="post">
 

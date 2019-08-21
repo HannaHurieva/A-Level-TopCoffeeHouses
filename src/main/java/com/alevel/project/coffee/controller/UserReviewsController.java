@@ -2,110 +2,77 @@ package com.alevel.project.coffee.controller;
 
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
-import com.alevel.project.coffee.repository.ReviewRepository;
 import com.alevel.project.coffee.service.ReviewService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/user/reviews")
 public class UserReviewsController {
 
-    private ReviewRepository reviewRepository;
     private ReviewService reviewService;
 
-   /* @Autowired
-    public void setReviewRepository(ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
-*/
-   @Autowired
-   public void setReviewService(ReviewService reviewService){
-       this.reviewService = reviewService;
-   }
-
-    @PostMapping("/add")
-    public String addReview(
-            @AuthenticationPrincipal User user,
-            @Valid Review review,
-            BindingResult bindingResult,
-            Model model
-
-    ) throws IOException {
-        review.setAuthor(user);
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-
-            model.mergeAttributes(errorsMap);
-            model.addAttribute("reviews", review);
-        } else {
-
-            model.addAttribute("reviews", null);
-            reviewService.add(review,user);
-           // reviewRepository.save(review);
-        }
-
-       // Iterable<Review> reviews = reviewRepository.findAll();
-        Iterable<Review> reviews = reviewService.findAll();
-
-        model.addAttribute("reviews", reviews);
-
-        return "userReviews";
+    @Autowired
+    public void setReviewService(ReviewService reviewService) {
+        this.reviewService = reviewService;
     }
 
-
+    @GetMapping("{user}")
     @Transactional
-    @GetMapping
-    public String getUserReviews(@AuthenticationPrincipal User user, Model model) {
+    public String getUserReviews(@AuthenticationPrincipal User currentUser,
+                                 @PathVariable User user, Model model,
+                                 @RequestParam(required = false) Review review) {
         List<Review> reviews = reviewService.findByAuthor(user);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("review", review);
+        model.addAttribute("isCurrentUser", currentUser.getId() == user.getId());
         return "userReviews";
     }
 
-    @PostMapping("{id}")
+    @PostMapping("{user}")
+    @Transactional
     public String updateReview(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable Long id,
+            @PathVariable(name = "user") Long userId,
             @RequestParam("id") Review review,
-            @RequestParam("text") String text)
-            throws IOException {
-        if (review.getAuthor().equals(currentUser)) {
-            if (!StringUtils.isEmpty(text)) {
-                review.setText(text);
+            @RequestParam("text") String text,
+            Model model) {
+
+        if (currentUser.getId() == review.getAuthor().getId()) {
+            model.addAttribute("isCurrentUser", "true");
+            boolean isEmptyText = StringUtils.isEmpty(text);
+            if (!isEmptyText) {
+                reviewService.update(review, text);
             }
-
-            reviewRepository.save(review);
         }
-
-        return "redirect:/user/reviews/" + id;
+        return "redirect:/user/reviews/" + userId;
     }
 
-    @GetMapping("{id}")
-    public String deleteReview(@AuthenticationPrincipal User currentUser,
-                               @PathVariable Long id,
-                               @RequestParam("id") Review review,
-                               RedirectAttributes redirectAttributes) {
+    @GetMapping("{user}/delete")
+    @Transactional
+    public String resultDeletingReview(@PathVariable(name = "user") Long userId, Long id, Model model) {
+        model.addAttribute("message", "The review with id = " + id + " was successful deleted");
+        return "requestOk";
+    }
 
-        if (review.getAuthor().equals(currentUser)) {
-            reviewService.deleteById(id);
+    @PostMapping("{user}/delete/{id}")
+    @Transactional
+    public String deleteReview(@AuthenticationPrincipal User currentUser,
+                               @PathVariable(name = "user") Long userId,
+                               @PathVariable(name = "id") Review review,
+                               Model model) {
+        if (currentUser.getId() == userId) {
+            reviewService.deleteReview(review);
+            return resultDeletingReview(userId, review.getId(), model);
         }
-        redirectAttributes.addAttribute("message", "Review was deleted");
-        return "redirect:/user/reviews";
+        return "redirect:/user/reviews/" + currentUser.getId();
     }
 
 }

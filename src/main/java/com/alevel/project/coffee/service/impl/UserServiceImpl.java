@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addNewUser(User user) {
+    public void createNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus(ACTIVE);
         user.setRoles(Collections.singleton(Role.USER));

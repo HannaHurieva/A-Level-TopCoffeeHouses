@@ -28,7 +28,7 @@ public class UserServiceImplTest {
     private static final User user = new User();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         user.setUsername("User1");
         user.setFirstName("firstName");
         user.setLastName("lastName");
@@ -37,8 +37,8 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void shouldAddNewUserTest() {
-        userService.addNewUser(user);
+    void shouldCreateNewUserTest() {
+        userService.createNewUser(user);
         Assert.assertTrue(CoreMatchers.is(user.getStatus()).matches(Status.ACTIVE));
         Assert.assertTrue(CoreMatchers.is(user.getRoles()).matches(Collections.singleton(Role.USER)));
         Mockito.verify(userRepo, Mockito.times(1)).save(user);

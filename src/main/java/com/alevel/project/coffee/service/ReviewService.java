@@ -1,23 +1,24 @@
 package com.alevel.project.coffee.service;
 
+import com.alevel.project.coffee.model.Place;
 import com.alevel.project.coffee.model.Review;
 import com.alevel.project.coffee.model.User;
 
 import java.util.List;
 
 public interface ReviewService {
+    void createNewReview(Place place, Review review, User author);
 
-    Iterable<Review> findAll();
+    List<Review> findAll();
 
-    void deleteById(long id);
+    Review findById(Long id);
 
     List<Review> findByAuthor(User author);
 
-    String update(Review review, String text);
+    List<Review> findByPlace(Place place);
 
-    void add(Review review, User author);
+    void update(Review review, String text);
 
-
-
+    void deleteReview(Review review);
 
 }

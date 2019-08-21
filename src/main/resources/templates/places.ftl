@@ -3,13 +3,11 @@
 
 <@c.page>
     <h5>Welcome to CoffeeIN!</h5>
-
-    <div>
-        <a href="/user/reviews">Write a feedback</a>
+    <div class="card-columns">
+        <#include "parts/filterByCuisine.ftl">
+        <#include "parts/filterByPlaceCategory.ftl">
+        <#include "parts/filterByLocation.ftl">
     </div>
 
-    <#if isAdmin>
-        <a href="/places/create">Create new place</a>
-    </#if>
-
+    <#include "parts/placesList.ftl">
 </@c.page>

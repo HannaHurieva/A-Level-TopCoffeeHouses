@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    void addNewUser(User user);
+    void createNewUser(User user);
 
     User findByEmail(String email);
 

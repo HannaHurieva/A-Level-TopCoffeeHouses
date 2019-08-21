@@ -10,7 +10,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -51,7 +50,7 @@ public class User implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<Review> reviews;
 
     public User() {
@@ -153,21 +152,30 @@ public class User implements Serializable, UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return id == user.id &&
-                username.equals(user.username) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                email.equals(user.email) &&
-                password.equals(user.password) &&
-                status == user.status &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(reviews, user.reviews);
+
+        if (id != user.id) return false;
+        if (!username.equals(user.username)) return false;
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
+        if (!email.equals(user.email)) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (status != user.status) return false;
+        return roles != null ? roles.equals(user.roles) : user.roles == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstName, lastName, email, password, status, roles, reviews);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + username.hashCode();
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + email.hashCode();
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        return result;
     }
 
     // DO-NOT-INCLUDE passwords in toString function
@@ -181,7 +189,6 @@ public class User implements Serializable, UserDetails {
                 ", email='" + email + '\'' +
                 ", status=" + status +
                 ", roles=" + roles +
-                ", reviews=" + reviews +
                 '}';
     }
 

@@ -1,8 +1,10 @@
 CREATE TABLE reviews (
-  review_id     bigint not null auto_increment,
-  text          varchar(2048),
-  fk_user_id    bigint,
-  fk_place_id   bigint,
+  review_id    bigint not null auto_increment,
+  text         varchar(2048),
+  created      date,
+  updated      date,
+  fk_user_id   bigint,
+  fk_place_id  bigint,
   primary key (review_id)
   )
   ENGINE = InnoDB;

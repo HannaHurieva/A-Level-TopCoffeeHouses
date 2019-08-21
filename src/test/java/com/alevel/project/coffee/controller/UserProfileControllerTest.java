@@ -37,16 +37,16 @@ public class UserProfileControllerTest {
 
     @Test
     public void navbarShouldContainsUserNameTest() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+        this.mockMvc.perform(get("/user/profile/2"))
                 .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("/html/body/nav/div/div")
+                .andExpect(xpath("/html/body/div/h5")
                         .string(containsString("User1")));
     }
 
     @Test
     public void pageShouldContainsUsernameTest() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+        this.mockMvc.perform(get("/user/profile/2"))
                 .andDo(print())
                 .andExpect(authenticated())
                 .andExpect(content().string(containsString("User1")));
@@ -54,7 +54,7 @@ public class UserProfileControllerTest {
 
     @Test
     public void pageShouldContainsFirstNameTest() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+        this.mockMvc.perform(get("/user/profile/2"))
                 .andDo(print())
                 .andExpect(authenticated())
                 .andExpect(content().string(containsString("Name")));
@@ -62,7 +62,7 @@ public class UserProfileControllerTest {
 
     @Test
     public void pageShouldContainsLastNameTest() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+        this.mockMvc.perform(get("/user/profile/2"))
                 .andDo(print())
                 .andExpect(authenticated())
                 .andExpect(content().string(containsString("Surname")));
@@ -70,7 +70,7 @@ public class UserProfileControllerTest {
 
     @Test
     public void pageShouldContainsEmailTest() throws Exception {
-        this.mockMvc.perform(get("/user/profile"))
+        this.mockMvc.perform(get("/user/profile/2"))
                 .andDo(print())
                 .andExpect(authenticated())
                 .andExpect(content().string(containsString("user@alevel.com")));
@@ -79,7 +79,7 @@ public class UserProfileControllerTest {
     @Test
     public void shouldRedirectWhenChangeFirstNameTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
-                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
+                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile/2")
                         .param("firstName", "firstName")
                         .param("lastName", "")
                         .param("password", "")
@@ -88,15 +88,14 @@ public class UserProfileControllerTest {
 
         this.mockMvc.perform(multipart)
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/reviews"));
+                .andExpect(status().is2xxSuccessful());
 
     }
 
     @Test
     public void shouldRedirectWhenChangeLastNameTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
-                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
+                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile/2")
                         .param("firstName", "")
                         .param("lastName", "lastName")
                         .param("password", "")
@@ -105,15 +104,14 @@ public class UserProfileControllerTest {
 
         this.mockMvc.perform(multipart)
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/reviews"));
+                .andExpect(status().is2xxSuccessful());
 
     }
 
     @Test
     public void shouldRedirectWhenChangePasswordTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
-                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
+                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile/2")
                         .param("firstName", "")
                         .param("lastName", "")
                         .param("password", "password")
@@ -122,15 +120,14 @@ public class UserProfileControllerTest {
 
         this.mockMvc.perform(multipart)
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/reviews"));
+                .andExpect(status().is2xxSuccessful());
 
     }
 
     @Test
     public void shouldRedirectWhenChangeEmailTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
-                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
+                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile/2")
                         .param("firstName", "")
                         .param("lastName", "")
                         .param("password", "")
@@ -139,15 +136,14 @@ public class UserProfileControllerTest {
 
         this.mockMvc.perform(multipart)
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/reviews"));
+                .andExpect(status().is2xxSuccessful());
 
     }
 
     @Test
     public void shouldReturnEmailErrorMessageIsCannotBeEmptyTest() throws Exception {
         MockMultipartHttpServletRequestBuilder multipart =
-                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile")
+                (MockMultipartHttpServletRequestBuilder) multipart("/user/profile/2")
                         .param("firstName", "")
                         .param("lastName", "")
                         .param("password", "")

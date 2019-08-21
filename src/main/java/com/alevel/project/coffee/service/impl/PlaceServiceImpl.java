@@ -8,6 +8,7 @@ import com.alevel.project.coffee.repository.ContactRepo;
 import com.alevel.project.coffee.repository.CuisineTypeRepo;
 import com.alevel.project.coffee.repository.PlaceCategoryRepo;
 import com.alevel.project.coffee.repository.PlaceRepo;
+import com.alevel.project.coffee.service.PlaceNotFoundException;
 import com.alevel.project.coffee.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,32 +45,29 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void createNewPlace(Place place, Contact contact, Map<String, String> form) {
-        Set<CuisineType> cuisineTypes = new HashSet<>();
-        Set<PlaceCategory> placeCategories = new HashSet<>();
-
-        for (String key : form.keySet()) {
-            Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
-            if (cuisineTypeFromDB.isPresent()) {
-                CuisineType cuisineTypeOfPlace = new CuisineType();
-                cuisineTypeOfPlace.setId(cuisineTypeFromDB.get().getId());
-                cuisineTypeOfPlace.setCuisineType(key);
-                cuisineTypes.add(cuisineTypeOfPlace);
-            }
-
-            Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
-            if (placeCategoryFromDB.isPresent()) {
-                PlaceCategory placeCategory = new PlaceCategory();
-                placeCategory.setId(placeCategoryFromDB.get().getId());
-                placeCategory.setPlaceCategory(key);
-                placeCategories.add(placeCategory);
-            }
-        }
-        place.setCuisineTypes(cuisineTypes);
-        place.setPlaceCategories(placeCategories);
-
+        place.setCuisineTypes(getSetCuisineTypes(form));
+        place.setPlaceCategories(getSetPlaceCategories(form));
         placeRepo.saveAndFlush(place);
         contact.setPlace(place);
         contactRepo.save(contact);
+    }
+
+    private Set<CuisineType> getSetCuisineTypes(Map<String, String> form) {
+        Set<CuisineType> cuisineTypes = new HashSet<>();
+        for (String key : form.keySet()) {
+            Optional<CuisineType> cuisineTypeFromDB = cuisineTypeRepo.findByCuisineType(key);
+            cuisineTypeFromDB.ifPresent(cuisineTypes::add);
+        }
+        return cuisineTypes;
+    }
+
+    private Set<PlaceCategory> getSetPlaceCategories(Map<String, String> form) {
+        Set<PlaceCategory> placeCategories = new HashSet<>();
+        for (String key : form.keySet()) {
+            Optional<PlaceCategory> placeCategoryFromDB = placeCategoryRepo.findByPlaceCategory(key);
+            placeCategoryFromDB.ifPresent(placeCategories::add);
+        }
+        return placeCategories;
     }
 
     @Override
@@ -78,43 +76,44 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Optional<Place> findByTitle(String title) {
-        return Optional.ofNullable(placeRepo.findByTitle(title));
+    public Place findById(Long id) {
+        return placeRepo.findById(id)
+                .orElseThrow(() -> new PlaceNotFoundException(id));
     }
 
     @Override
-    public List<Place> findByContact_Location(String location) {
-        return placeRepo.findByContact_Location(location);
+    public Place findByTitle(String title) {
+        return placeRepo.findByTitle(title);
     }
 
     @Override
-    public List<Place> findByCuisineType(String cuisineType) {
-        return placeRepo.findByCuisineTypes(cuisineType);
+    public List<Place> findByContactLocation(String location) {
+        return placeRepo.findByContactLocation(location);
+    }
+
+    @Override
+    public List<Place> findByCuisineType(String cuisine) {
+        if (cuisine != null && !cuisine.isEmpty()) {
+            return placeRepo.findBy_CuisineType(cuisine);
+        } else return placeRepo.findAll();
     }
 
     @Override
     public List<Place> findByPlaceCategory(String placeCategory) {
-        return placeRepo.findByPlaceCategories(placeCategory);
+        if (placeCategory != null && !placeCategory.isEmpty()) {
+            return placeRepo.findBy_PlaceCategory(placeCategory);}
+        else return placeRepo.findAll();
     }
 
     @Override
     public boolean isTitleExist(Place place) {
-        Place placeFromDb = placeRepo.findByTitle(place.getTitle());
+        Place placeFromDb = findByTitle(place.getTitle());
         return placeFromDb != null;
     }
 
     @Override
-    public void updatePlace(Place place,
-                            String title, String description,
-                            int timeOpening, int timeClosing,
-                            Contact contact,
-                            String address, String location, String phone, String website,
-                            Map<String, String> form) {
-        //TODO
-    }
-
-    @Override
     public void deletePlace(Place place) {
-        placeRepo.deleteById(place.getId());
+        Place placeById = findById(place.getId());
+        placeRepo.delete(placeById);
     }
 }

@@ -1,47 +1,33 @@
 package com.alevel.project.coffee.model;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-
-
 
 @Entity
 @Table(name = "reviews")
-public class Review implements Serializable {
+public class Review extends Auditable<String> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", unique = true, nullable = false)
     private long id;
 
+    @Column(name = "text")
     @NotBlank(message = "Please write your review")
     @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", referencedColumnName = "user_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_place_id", referencedColumnName = "place_id")
     private Place place;
-
-    @CreatedDate
-    @Column(name = "created")
-    private Date created;
-
-
-  /*  @LastModifiedDate
-    @Column(name = "updated")
-    private Date updated;*/
-
 
     public Review() {
     }
@@ -88,14 +74,6 @@ public class Review implements Serializable {
         this.place = place;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,13 +82,12 @@ public class Review implements Serializable {
         return id == review.id &&
                 Objects.equals(text, review.text) &&
                 Objects.equals(author, review.author) &&
-                Objects.equals(place, review.place) &&
-                Objects.equals(created, review.created);
+                Objects.equals(place, review.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, author, place, created);
+        return Objects.hash(id, text, author, place);
     }
 
     @Override
@@ -120,7 +97,6 @@ public class Review implements Serializable {
                 ", text='" + text + '\'' +
                 ", author=" + author +
                 ", place=" + place +
-                ", created=" + created +
                 '}';
     }
 }
